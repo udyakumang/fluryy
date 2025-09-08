@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="640" height="180" viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Udyak logo">
+  <defs>
+    <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFC44D"/>
+      <stop offset="100%" stop-color="#FF7A00"/>
+    </linearGradient>
+    <style>
+      @font-face { font-family: 'SerifAlt'; src: local('Times New Roman'); }
+    </style>
+  </defs>
+  <g transform="translate(40,30)">
+    <circle cx="32" cy="26" r="16" fill="#0E2B5C"/>
+    <path d="M32 50 C10 60 6 92 6 110 L20 110 C22 90 28 78 32 76 C36 78 42 90 44 110 L58 110 C58 92 54 60 32 50Z" fill="#0E2B5C"/>
+    <path d="M32 62 C0 70 0 88 0 95 C8 95 22 92 32 86 C42 92 56 95 64 95 C64 88 64 70 32 62Z" fill="#0E2B5C"/>
+    <path d="M66 10 C72 18 70 28 62 34 C61 28 58 24 54 22 C58 16 63 12 66 10Z" fill="url(#flame)"/>
+  </g>
+  <text x="140" y="110" font-size="72" font-family="SerifAlt, Georgia, serif" fill="#0E2B5C" letter-spacing="1">Udyak</text>
+</svg>
