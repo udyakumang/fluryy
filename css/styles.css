@@ -25,4 +25,5 @@ p.lead{font-size:1.12rem;color:#4b5a6a}
 .footer a{color:#fff;text-decoration:none}
 .note{font-size:.9rem;color:#607089}
 .version{font-size:.85rem;color:#607089}
+.visually-hidden{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 @media (max-width:980px){.grid{grid-template-columns:1fr}.columns{grid-template-columns:1fr}.pillbox{grid-template-columns:repeat(2,1fr)}}

@@ -6,14 +6,16 @@
   <title>Fluryy — Pet Grooming Bookings (Mumbai)</title>
   <meta name="description" content="Fluryy connects pet parents with vetted groomers for at-home or in-salon grooming from Borivali to Bandra." />
   <meta name="theme-color" content="#2F80ED">
-  <link rel="icon" type="image/svg+xml" href="/assets/logo-fluryy-icon.svg" />
-  <link rel="stylesheet" href="/css/styles.css?v=v1.0.3" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="manifest" href="/manifest.webmanifest?v=v1.0.5">
+  <link rel="preload" href="/assets/logo-fluryy.svg" as="image" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/styles.css?v=v1.0.5" />
 </head>
 <body>
   <header class="header">
     <div class="container header-inner">
       <a class="brand" href="#top" aria-label="Fluryy home">
-        <img src="/assets/logo-fluryy-horizontal.svg" alt="Fluryy logo" class="logo" />
+        <img src="/assets/logo-fluryy.svg" alt="Fluryy logo" class="logo" />
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="#how">How it Works</a>
@@ -39,17 +41,19 @@
             <span class="badge">Secure payments</span>
           </div>
           <a class="cta" href="#waitlist">Get early access</a>
-          <div class="version">Build v1.0.3 • 2025-09-08</div>
+          <div class="version">Build v1.0.5 • 2025-09-08</div>
         </div>
         <aside class="card" aria-label="Quick booking">
           <h2 id="waitlist">Get on the early access list</h2>
-          <form data-demo aria-describedby="wl-msg">
-            <label>Email<br><input class="input" type="email" required placeholder="you@example.com" aria-label="Email"></label><br><br>
-            <label>City/Locality<br><input class="input" type="text" required placeholder="e.g., Borivali West"></label><br><br>
+          <form id="waitlist-form" action="https://formspree.io/f/WAITLIST_ID" method="POST" aria-describedby="wl-msg">
+            <input type="hidden" name="_subject" value="Fluryy Waitlist">
+            <p class="visually-hidden"><label>Leave this empty<input name="_gotcha"></label></p>
+            <label>Email<br><input class="input" name="email" type="email" required placeholder="you@example.com" aria-label="Email"></label><br><br>
+            <label>City/Locality<br><input class="input" name="locality" type="text" required placeholder="e.g., Borivali West"></label><br><br>
             <button class="btn" type="submit">Join Waitlist</button>
             <div data-msg id="wl-msg" style="margin-top:.5rem;font-weight:700;"></div>
           </form>
-          <p class="note">We’ll switch this to SES/Mailchimp on launch.</p>
+          <p class="note">Powered by Formspree. Replace <code>WAITLIST_ID</code> with your form ID.</p>
         </aside>
       </div>
     </section>
@@ -95,13 +99,16 @@
         </div>
         <div class="card">
           <h3>Apply as a groomer</h3>
-          <form data-demo aria-describedby="groomer-msg">
-            <label>Name<br><input class="input" type="text" required></label><br><br>
-            <label>Phone<br><input class="input" type="tel" required></label><br><br>
-            <label>Operating areas<br><input class="input" type="text" required placeholder="e.g., Andheri, Bandra"></label><br><br>
+          <form id="groomer-form" action="https://formspree.io/f/GROOMER_ID" method="POST" aria-describedby="groomer-msg">
+            <input type="hidden" name="_subject" value="Fluryy Groomer Application">
+            <p class="visually-hidden"><label>Leave this empty<input name="_gotcha"></label></p>
+            <label>Name<br><input class="input" name="name" type="text" required></label><br><br>
+            <label>Phone<br><input class="input" name="phone" type="tel" required></label><br><br>
+            <label>Operating areas<br><input class="input" name="areas" type="text" required placeholder="e.g., Andheri, Bandra"></label><br><br>
             <button class="btn" type="submit">Submit</button>
             <div data-msg id="groomer-msg" style="margin-top:.5rem;font-weight:700;"></div>
           </form>
+          <p class="note">Powered by Formspree. Replace <code>GROOMER_ID</code> with your form ID.</p>
         </div>
       </div>
     </section>
@@ -118,13 +125,17 @@
         </div>
         <div class="card">
           <h3>Book a discovery call</h3>
-          <form data-demo aria-describedby="call-msg">
-            <label>Your name<br><input class="input" type="text" required></label><br><br>
-            <label>Pet type<br><input class="input" type="text" required placeholder="Dog / Cat + breed"></label><br><br>
-            <label>Preferred time<br><input class="input" type="text" required placeholder="e.g., Sat morning"></label><br><br>
+          <form id="contact-form" action="https://formspree.io/f/CONTACT_ID" method="POST" aria-describedby="call-msg">
+            <input type="hidden" name="_subject" value="Fluryy Contact Request">
+            <p class="visually-hidden"><label>Leave this empty<input name="_gotcha"></label></p>
+            <label>Your name<br><input class="input" name="name" type="text" required></label><br><br>
+            <label>Pet type<br><input class="input" name="topic" type="text" required placeholder="Dog / Cat + breed"></label><br><br>
+            <label>Preferred time<br><input class="input" name="time" type="text" required placeholder="e.g., Sat morning"></label><br><br>
+            <label>Email<br><input class="input" name="email" type="email" required placeholder="you@example.com"></label><br><br>
             <button class="btn" type="submit">Request call</button>
             <div data-msg id="call-msg" style="margin-top:.5rem;font-weight:700;"></div>
           </form>
+          <p class="note">Powered by Formspree. Replace <code>CONTACT_ID</code> with your form ID.</p>
         </div>
       </div>
     </section>
@@ -139,10 +150,12 @@
         <a href="#areas">Areas</a>
         <a href="#for-groomers">For Groomers</a>
         <a href="#contact">Contact</a>
+        <a href="/robots.txt">Robots</a>
+        <a href="/sitemap.xml">Sitemap</a>
       </div>
     </div>
   </footer>
 
-  <script src="/js/main.js?v=v1.0.3" defer></script>
+  <script src="/js/main.js?v=v1.0.5" defer></script>
 </body>
 </html>
