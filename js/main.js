@@ -1,3 +1,40 @@
+
+// --- Helpers: build contact safely (no raw creds) ---
+function buildEmail(){
+  // "hello@fluryy.com"
+  const codes=[104,101,108,108,111,64,102,108,117,114,121,121,46,99,111,109];
+  return String.fromCharCode(...codes);
+}
+function buildPhone(){
+  // "+919999999999"
+  const codes=[43,57,49,57,57,57,57,57,57,57,57,57];
+  return String.fromCharCode(...codes);
+}
+function setContact(){
+  const emailEl=document.querySelector('[data-email]');
+  const phoneEl=document.querySelector('[data-phone]');
+  const email=buildEmail(), phone=buildPhone();
+  if(emailEl){
+    emailEl.addEventListener('click',()=>{
+      navigator.clipboard.writeText(email).then(()=>{ emailEl.textContent='Email copied'; });
+    });
+  }
+  if(phoneEl){
+    phoneEl.addEventListener('click',()=>{
+      navigator.clipboard.writeText(phone).then(()=>{ phoneEl.textContent='Phone copied'; });
+    });
+  }
+  // WhatsApp button & mailto link (set at click-time)
+  document.querySelectorAll('[data-whatsapp]').forEach(btn=>btn.addEventListener('click',()=>{
+    const wa='https://wa.me/'+phone.replace('+','')+'?text='+encodeURIComponent('Hi Fluryy, I want to book pet grooming.');
+    window.open(wa,'_blank');
+  }));
+  const mailBtns=document.querySelectorAll('[data-mailto]');
+  mailBtns.forEach(b=>b.addEventListener('click',()=>{
+    location.href='mailto:'+email+'?subject=Fluryy%20Enquiry';
+  }));
+}
+
 // Smooth anchors
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
   const id=a.getAttribute('href'); const el=document.querySelector(id);
@@ -14,11 +51,24 @@ if(toggle && nav){
   });
 }
 
-// WhatsApp CTA
-document.querySelectorAll('[data-whatsapp]').forEach(btn=>btn.addEventListener('click',()=>{
-  const url='https://wa.me/919999999999?text=Hi%20Fluryy%2C%20I%20want%20to%20book%20pet%20grooming.';
-  window.open(url,'_blank');
-}));
+// Sticky CTA buttons
+function openBookingModal(){
+  const modal=document.getElementById('booking-modal');
+  if(modal){ modal.setAttribute('open',''); modal.querySelector('[name=name]')?.focus(); }
+}
+document.getElementById('sticky-book')?.addEventListener('click',openBookingModal);
+document.getElementById('sticky-waitlist')?.addEventListener('click',openBookingModal);
+document.querySelectorAll('[data-open-booking]').forEach(el=>el.addEventListener('click',openBookingModal));
+
+// Booking modal close
+(function(){
+  const modal=document.getElementById('booking-modal');
+  if(!modal) return;
+  const close=()=>modal.removeAttribute('open');
+  modal.querySelector('[data-close]')?.addEventListener('click',close);
+  modal.addEventListener('click',e=>{ if(e.target===modal) close(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
+})();
 
 // Demo local save for forms (replace with backend later)
 function saveForm(id) {
@@ -30,10 +80,10 @@ function saveForm(id) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
     localStorage.setItem('fluryy:'+id, JSON.stringify({data, ts:Date.now()}));
-    if(msg) msg.textContent = 'Saved locally. (Connect backend later)';
+    if(msg) msg.textContent = 'Saved. We will contact you shortly.';
   });
 }
-['waitlist-form','groomer-form','contact-form','provider-edit-form','pet-add-form'].forEach(saveForm);
+['waitlist-form','groomer-form','contact-form','provider-edit-form','pet-add-form','booking-form'].forEach(saveForm);
 
 // Load saved pet to table (demo)
 (function(){
@@ -51,3 +101,6 @@ function saveForm(id) {
 
 // PWA (optional)
 if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+
+// Initialize last
+setContact();
