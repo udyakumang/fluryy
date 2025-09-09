@@ -74,3 +74,10 @@ body.modal-open{overflow:hidden}
 .table{width:100%;min-width:640px;border-collapse:collapse}
 .table th,.table td{padding:.75rem 1rem;border-bottom:1px solid #eaeef6;text-align:left}
 .table th{background:#f7fbff;font-weight:800;color:#203048}
+
+/* Form layout helpers */
+.form-row-two{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.checkbox-group{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.35rem}
+.checkbox{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .55rem;border:1px solid #d9e6fb;border-radius:999px;cursor:pointer;background:#fff}
+.checkbox input{accent-color:var(--brand)}
+@media (max-width:600px){.form-row-two{grid-template-columns:1fr}}

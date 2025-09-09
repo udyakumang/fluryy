@@ -1,5 +1,15 @@
 
 (function(){
+
+  // ---- Analytics (Plausible) ----
+  function track(name, props){
+    try{
+      if(window.plausible){
+        window.plausible(name, {props: props||{}});
+      }
+    }catch(_){}
+  }
+
   if(document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);
   } else { init(); }
@@ -16,26 +26,58 @@
     hydrateDashboard();
   }
 
-  // Contact obfuscated
-  function buildEmail(){ return String.fromCharCode(104,101,108,108,111,64,102,108,117,114,121,121,46,99,111,109); }
+  
+
+    // Hooks: track booking modal opens (from any opener)
+    document.addEventListener('click', (e)=>{
+      const opener = e.target.closest('[data-open-booking]');
+      if(opener){ track('Booking Modal Open', {source: opener.textContent?.trim()||'unknown'}); }
+    });
+
+    // Track sticky CTA visibility on mobile (threshold once)
+    const mcta = document.querySelector('.mobile-cta');
+    if(mcta && 'IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries)=>{
+        if(entries.some(en=>en.isIntersecting)){
+          track('Sticky CTA Visible');
+          io.disconnect();
+        }
+      }, {threshold: .5});
+      io.observe(mcta);
+    }
+
+    // Form submit tracking (client-side)
+    const map = [
+      ['#booking-form','Booking Submit'],
+      ['#waitlist-form','Waitlist Submit'],
+      ['#contact-form','Contact Submit'],
+      ['#groomer-form','Groomer Submit'],
+      ['#pet-add-form','Pet Add Submit'],
+      ['#login-form','Login Submit'],
+      ['#register-form','Register Submit']
+    ];
+    map.forEach(([sel,evt])=>{
+      const f = document.querySelector(sel);
+      if(f){
+        f.addEventListener('submit', ()=>{ track(evt); });
+      }
+    });
+
+    // Thanks page hit
+    if(location.pathname.endsWith('/thanks.html')){
+      track('Thank You Viewed', {referrer: document.referrer||'direct'});
+    }
+
+function buildEmail(){ return String.fromCharCode(104,101,108,108,111,64,102,108,117,114,121,121,46,99,111,109); }
   function buildPhone(){ return String.fromCharCode(43,57,49,57,57,57,57,57,57,57,57,57); }
   function setContact(){
     const emailEl=document.querySelector('[data-email]');
     const phoneEl=document.querySelector('[data-phone]');
     const email=buildEmail(), phone=buildPhone();
-    if(emailEl){
-      emailEl.addEventListener('click', (e)=>{ e.preventDefault(); location.href='mailto:'+email+'?subject=Fluryy%20Enquiry'; });
-    }
-    if(phoneEl){
-      phoneEl.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const wa='https://wa.me/'+phone.replace('+','')+'?text='+encodeURIComponent('Hi Fluryy, I want to book pet grooming.');
-        window.open(wa,'_blank');
-      });
-    }
+    if(emailEl){ emailEl.addEventListener('click', (e)=>{ e.preventDefault(); location.href='mailto:'+email+'?subject=Fluryy%20Enquiry'; }); }
+    if(phoneEl){ phoneEl.addEventListener('click', (e)=>{ e.preventDefault(); const wa='https://wa.me/'+phone.replace('+','')+'?text='+encodeURIComponent('Hi Fluryy, I want to book pet grooming.'); window.open(wa,'_blank'); }); }
   }
 
-  // Anchors
   function bindAnchors(){
     document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
       const id=a.getAttribute('href'); const el=document.querySelector(id);
@@ -43,7 +85,6 @@
     }));
   }
 
-  // Mobile nav
   function bindMobileNav(){
     const toggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('.nav');
@@ -55,7 +96,6 @@
     }
   }
 
-  // Booking modal
   function openBookingModal(){
     const modal=document.getElementById('booking-modal');
     if(!modal) return;
@@ -86,12 +126,10 @@
     }
   }
 
-  // PWA
   function registerPWA(){
     if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
   }
 
-  // Auth (client demo)
   const AUTH_KEY='fluryy:user';
   function getUser(){ try{ return JSON.parse(localStorage.getItem(AUTH_KEY)) || null; }catch(_){ return null; } }
   function setUser(u){ localStorage.setItem(AUTH_KEY, JSON.stringify(u)); }
