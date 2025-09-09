@@ -1,30 +1,27 @@
 
-# Fluryy Website (v1.0.5)
+Fluryy Website — vv1.2.1
+===========================
 
-Static, SEO-friendly, PWA‑ready site for **Fluryy** (pet grooming bookings).
+What’s inside
+- PWA shell (manifest + service worker) with prominent Install buttons (header, hero, mobile, banner, /install.html).
+- Booking modal + sticky mobile CTA; Formspree wired (Waitlist/Groomer/Contact/Booking).
+- Bot-safe contact: email=hello@fluryy.com, WhatsApp=+918657369309 (assembled in JS).
+- Demo auth (localStorage) with protected pages and a role-aware dashboard.
 
-## What you get
-- `index.html` — Fluryy landing: Hero, *How it works*, Services (Bath & Brush, Full Groom, Cat Groom), **Service Areas** (Borivali→Bandra corridor), **Groomer onboarding**, Contact.
-- `css/styles.css` — Clean, modern, mobile-first styles.
-- `js/main.js` — Smooth anchors, WhatsApp CTA, **PWA registration**.
-- `assets/logo-fluryy.svg` & `assets/favicon.svg` — Vector paw-style logo + icon.
-- `robots.txt`, `sitemap.xml` — SEO basics.
-- `manifest.webmanifest`, `sw.js` — PWA shell with offline cache.
+Supabase auth (optional)
+1) Create project → get SUPABASE_URL + ANON_KEY.
+2) Uncomment <script type="module" src="/js/auth-supabase.js"></script> in pages.
+3) Edit /js/auth-supabase.js with your keys; call signInWithEmail(...) from your login form.
+4) Replace demo localStorage in main.js with Supabase session checks.
 
-## Live email wiring (Formspree)
-Two forms are wired to Formspree. Replace the placeholder IDs with your own:
-- Waitlist: `action="https://formspree.io/f/WAITLIST_ID"`
-- Groomer: `action="https://formspree.io/f/GROOMER_ID"`
-- Contact: `action="https://formspree.io/f/CONTACT_ID"`
+Clerk auth (alternative)
+- Add Clerk SDK script tags per docs; replace demo auth in main.js with Clerk mount points.
 
-### Steps
-1. Create forms at Formspree and copy the IDs.
-2. Open `index.html` and replace the three IDs.
-3. (Optional) Add a thank-you redirect: `<input type="hidden" name="_next" value="https://fluryy.com/thanks.html">`
+Razorpay payments (optional)
+1) Add <script src="https://checkout.razorpay.com/v1/checkout.js"></script> in <head>.
+2) Implement a backend to create orders (amount, currency, receipt) and return order_id.
+3) In /js/payments-razorpay.js, set your key_id and call openRazorpay(amount, order_id) after booking.
 
-## Quick edits before launch
-- **Email:** hello@fluryy.com (display only; mail handled by Formspree).
-- **WhatsApp:** update number in `index.html` and in `js/main.js`.
-- To switch from Formspree to SES/Mailchimp later, remove the `action` attributes and add a JS POST in `main.js`.
-
-© 2025 Fluryy.
+Deploy
+- Serve over HTTPS at site root. Ensure /manifest.webmanifest and /sw.js are accessible.
+- Any static host works: Netlify, Vercel, GitHub Pages, Cloudflare Pages, cPanel.

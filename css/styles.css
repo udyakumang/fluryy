@@ -14,6 +14,7 @@ img{max-width:100%;height:auto;display:block}
 .nav a{color:var(--ink);text-decoration:none;padding:.4rem .55rem;border-radius:8px;font-weight:600}
 .nav a:hover{color:var(--brand);background:#eef4ff}
 .cta{padding:.55rem .9rem;border-radius:12px;background:var(--brand);color:#fff;text-decoration:none;font-weight:800;box-shadow:0 6px 24px rgba(47,128,237,.18)}
+.cta.outline{background:#fff;color:var(--brand);border:2px solid var(--brand)}
 
 .hero{background:linear-gradient(120deg,#E9F5FF 0%,#fff 60%);padding:64px 0 32px;border-bottom:1px solid #e6eef8}
 .grid{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:start}
@@ -69,15 +70,13 @@ p.lead{font-size:1.1rem;color:#4b5a6a;margin:.5rem 0 0}
 /* Body lock when modal open */
 body.modal-open{overflow:hidden}
 
+/* Install banner */
+.install-banner{display:none; background:#fff; border:1px solid #e6eef8; border-radius:12px; padding:.8rem; margin:.75rem 0; box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.install-banner.is-visible{display:block}
+.install-actions{display:flex; gap:.5rem; flex-wrap:wrap}
+
 /* Tables */
 .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid #e6eef8;background:#fff}
 .table{width:100%;min-width:640px;border-collapse:collapse}
 .table th,.table td{padding:.75rem 1rem;border-bottom:1px solid #eaeef6;text-align:left}
 .table th{background:#f7fbff;font-weight:800;color:#203048}
-
-/* Form layout helpers */
-.form-row-two{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.checkbox-group{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.35rem}
-.checkbox{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .55rem;border:1px solid #d9e6fb;border-radius:999px;cursor:pointer;background:#fff}
-.checkbox input{accent-color:var(--brand)}
-@media (max-width:600px){.form-row-two{grid-template-columns:1fr}}
