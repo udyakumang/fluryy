@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fluryy — Groomer Portal</title>
+  <title>Fluryy — Dashboard</title>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/css/styles.css?v=v1.1.5" />
 </head>
@@ -68,31 +68,39 @@
 
   <main class="section">
     <div class="container">
-      <h1>Groomer Portal</h1>
-      <p class="lead">Edit your profile, set service areas and availability.</p>
+      <h1>Dashboard</h1>
+      <div id="dashboard">
+        <p class="lead">Welcome, <strong data-name></strong> (<span data-role></span>)</p>
 
-      <div class="card" style="margin-top:1rem;">
-        <h2>Your Profile</h2>
-        <form id="groomer-form" action="https://formspree.io/f/mjkelygj" method="POST" class="form-grid" aria-describedby="provider-msg">
-          <input type="hidden" name="_subject" value="Groomer Onboarding (Fluryy)">
-          <input type="hidden" name="_next" value="https://www.fluryy.com/thanks.html">
-          <div class="form-row"><label>Name<br><input class="input" name="name" required></label></div>
-          <div class="form-row"><label>Phone<br><input class="input" name="phone" type="tel" required></label></div>
-          <div class="form-row"><label>Email<br><input class="input" name="email" type="email"></label></div>
-          <div class="form-row"><label>Experience (years)<br><input class="input" name="exp" type="number" min="0" step="1"></label></div>
-          <div class="form-row"><label>Operating areas<br><input class="input" name="areas" placeholder="Bandra, Andheri, Malad"></label></div>
-          <div class="form-row"><label>Skills<br>
-            <select name="skills" multiple class="input">
-              <option>Dog full groom</option><option>Cat grooming</option><option>De-shedding</option><option>Hand stripping</option><option>Creative styling</option>
-            </select></label>
+        <div class="columns">
+          <div class="card" data-panel="parent">
+            <h3>Your Pets</h3>
+            <p>Manage pet profiles and quick book.</p>
+            <p><a class="cta" href="/pets.html">Go to My Pets</a></p>
           </div>
-          <div class="form-row" style="grid-column:1/-1;"><label>Bio / Notes<br><textarea name="bio" rows="4" class="input" placeholder="Tell pet parents about your experience and approach."></textarea></label></div>
-          <div class="form-row"><label>Available from<br><input class="input" name="avail_from" type="time"></label></div>
-          <div class="form-row"><label>Available to<br><input class="input" name="avail_to" type="time"></label></div>
-          <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Save Profile</button></div>
-          <div id="provider-msg" data-msg style="font-weight:700;"></div>
-        </form>
-        <p class="note">For production, we’ll require verified login and store this in your CRM.</p>
+
+          <div class="card" data-panel="groomer">
+            <h3>Your Provider Profile</h3>
+            <p>Keep your skills, areas and availability up to date.</p>
+            <p><a class="cta" href="/providers.html">Go to Provider Portal</a></p>
+          </div>
+
+          <div class="card" data-panel="all">
+            <h3>Make a Booking</h3>
+            <p>Pick service, date & time.</p>
+            <p><a class="cta" href="#" data-open-booking>Book now</a></p>
+          </div>
+
+          <div class="card" data-panel="admin">
+            <h3>Admin Overview</h3>
+            <ul>
+              <li>Submissions (Formspree): Waitlist / Booking / Contact / Groomer</li>
+              <li>Top localities this week</li>
+              <li>Groomer activations</li>
+            </ul>
+            <p class="note">We’ll connect this to your CRM & Formspree API for live stats.</p>
+          </div>
+        </div>
       </div>
     </div>
   </main>

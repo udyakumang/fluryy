@@ -3,4 +3,8 @@
   <url><loc>https://www.fluryy.com/</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://www.fluryy.com/providers.html</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.fluryy.com/pets.html</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fluryy.com/dashboard.html</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fluryy.com/login.html</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.fluryy.com/register.html</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.fluryy.com/thanks.html</loc><lastmod>2025-09-09</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
 </urlset>
