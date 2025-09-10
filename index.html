@@ -4,6 +4,8 @@
   <title>Fluryy — Pet Grooming Bookings (Mumbai)</title>
   <meta name="description" content="Fluryy connects pet parents with vetted groomers for at-home or in-salon grooming." />
   <link rel="stylesheet" href="/css/styles.css?v=1.2.5" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#2F80ED">
 </head><body>
 
 <header class="header"><div class="container header-inner">
@@ -20,7 +22,7 @@
   <div data-account class="nav"></div>
 </div></header>
 <div class="mobile-cta" role="region" aria-label="Quick actions">
-  <button class="btn" data-open-booking>Book now</button>
+  <button class="btn" data-open-booking aria-controls="booking-modal">Book now</button>
   <button class="btn" data-open-booking>Join waitlist</button>
 </div>
 
@@ -35,9 +37,15 @@
   <aside class="card" aria-label="Early access">
     <h2 id="waitlist">Join the waitlist</h2>
     <form id="waitlist-form" novalidate aria-describedby="wl-msg">
-      <label>Email<input class="input" name="email" type="email" required></label><br><br>
-      <label>Phone<input class="input" name="phone" type="tel" inputmode="tel" pattern="^(\+?91)?[6-9]\d{9}$" required></label><br><br>
-      <label>Locality<input class="input" name="locality" required></label><br><br>
+    <label for="wl-email">Email</label>
+	<input id="wl-email" class="input" name="email" type="email" required autocomplete="email">
+
+	<label for="wl-phone">Phone</label>
+	<input id="wl-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel">
+
+	<label for="wl-locality">Locality</label>
+	<input id="wl-locality" class="input" name="locality" required autocomplete="address-line2">
+
       <button class="btn" type="submit">Join</button>
       <div data-msg id="wl-msg" style="margin-top:.5rem;font-weight:700;"></div>
     </form>
@@ -73,7 +81,7 @@
   <div class="card"><h3>Discovery call</h3>
     <form id="contact-form" novalidate aria-describedby="call-msg">
       <label>Your name<input class="input" name="name" required></label><br><br>
-      <label>Phone<input class="input" name="phone" type="tel" inputmode="tel" pattern="^(\+?91)?[6-9]\d{9}$" required></label><br><br>
+      <label>Phone<input id="ct-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel"></label><br><br>
       <label>Pet type<input class="input" name="topic" required></label><br><br>
       <label>Preferred time<input class="input" name="time" required></label><br><br>
       <label>Email<input class="input" name="email" type="email" required></label><br><br>
@@ -85,14 +93,14 @@
 
 <div id="booking-modal" class="modal" aria-modal="true" role="dialog" aria-labelledby="booking-title" aria-hidden="true">
   <div class="dialog">
-    <div class="dialog-header"><div id="booking-title" class="dialog-title">Quick Booking</div><button class="icon-btn" data-close aria-label="Close">✕</button></div>
+    <div class="dialog-header"><div id="booking-title" class="dialog-title">Quick Booking</div><button class="icon-btn" data-close aria-label="Close modal"><span aria-hidden="true">✕</span></button></div>
     <div class="dialog-body">
       <form id="booking-form" novalidate class="form-grid" aria-describedby="booking-msg">
         <div class="form-row"><label>Your name<input class="input" name="name" required></label></div>
         <div class="form-row"><label>Email<input class="input" name="email" type="email" required></label></div>
         <div class="form-row"><label>Phone<input class="input" name="phone" type="tel" inputmode="tel" pattern="^(\+?91)?[6-9]\d{9}$" required></label></div>
         <div class="form-row"><label>Service<select class="input" name="service" required><option value="">Select</option><option>Bath &amp; Brush</option><option>Full Groom</option><option>Cat Groom</option></select></label></div>
-        <div class="form-row"><label>Date &amp; Time<input class="input" name="starts_at" type="datetime-local" required></label></div>
+        <div class="form-row"><label>Date &amp; Time<input id="bk-dt" class="input" name="starts_at" type="datetime-local" required autocomplete="off"></label></div>
         <div class="form-row" style="grid-column:1/-1;"><label>Address<input class="input" name="address"></label></div>
         <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Submit</button></div>
         <div id="booking-msg" data-msg style="font-weight:700;"></div>
@@ -101,6 +109,13 @@
     <div class="dialog-actions"><button class="btn" data-close>Close</button></div>
   </div>
 </div>
+<section class="section" id="install" hidden>
+  <div class="container card">
+    <h3>Add Fluryy to your phone</h3>
+    <p>Get faster access and offline basics.</p>
+    <button class="btn" type="button" id="install-btn">Install App</button>
+  </div>
+</section>
 </main>
 
 <footer class="footer"><div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
