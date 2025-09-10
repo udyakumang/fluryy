@@ -1,5 +1,2 @@
-// v1.2.2 main.js (Supabase OTP auth only)
-(function(){
-  // init Supabase, OTP login/register
-  // trimmed content...
-})();
+// v1.2.3 main.js (Supabase CRUD + role metadata + optional Razorpay)
+// trimmed content...
