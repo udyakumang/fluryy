@@ -8,9 +8,10 @@
   <meta name="theme-color" content="#2F80ED">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
   <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.3" />
+  <link rel="stylesheet" href="/css/styles.css?v=v1.2.1" />
 </head>
 <body>
+
   <header class="header">
     <div class="container header-inner">
       <a class="brand" href="/index.html" aria-label="Fluryy home">
@@ -18,17 +19,18 @@
       </a>
       <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
       <nav class="nav" aria-label="Primary">
-        <a href="#how">How it Works</a>
-        <a href="#services">Services</a>
-        <a href="#areas">Service Areas</a>
+        <a href="/index.html#how">How it Works</a>
+        <a href="/index.html#services">Services</a>
+        <a href="/index.html#areas">Service Areas</a>
         <a href="/providers.html">For Groomers</a>
         <a href="/pets.html">My Pets</a>
-        <a href="#contact">Contact</a>
+        <a href="/index.html#contact">Contact</a>
       </nav>
       <div data-account class="nav"></div>
     </div>
   </header>
 
+  <!-- Install banner near top on homepage -->
   <div class="container install-banner" data-install-banner>
     <strong>Install Fluryy</strong>
     <p>Add the app to your device for faster booking and offline access.</p>
@@ -38,10 +40,47 @@
     </div>
   </div>
 
+  <!-- Mobile sticky CTA -->
   <div class="mobile-cta" role="region" aria-label="Quick actions">
     <button class="btn" data-open-booking>Book now</button>
     <button class="btn secondary" data-open-booking>Join waitlist</button>
     <button class="btn" style="display:none" data-install-mobile>Install app</button>
+  </div>
+
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="modal" aria-modal="true" role="dialog" aria-labelledby="booking-title" aria-hidden="true">
+    <div class="dialog">
+      <div class="dialog-header">
+        <div id="booking-title" class="dialog-title">Quick Booking</div>
+        <button class="icon-btn" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="dialog-body">
+        <form id="booking-form" action="https://formspree.io/f/mqadnpeo" method="POST" class="form-grid" aria-describedby="booking-msg">
+          <input type="hidden" name="_subject" value="New Booking Request from Fluryy">
+          <input type="hidden" name="_next" value="https://www.fluryy.com/thanks.html">
+          <div class="form-row"><label>Your name<br><input class="input" name="name" required></label></div>
+          <div class="form-row"><label>Email<br><input class="input" name="email" type="email" required placeholder="you@example.com"></label></div>
+          <div class="form-row"><label>Phone<br><input class="input" name="phone" type="tel" required placeholder="+91…"></label></div>
+          <div class="form-row"><label>Service<br>
+            <select class="input" name="service" required>
+              <option value="">Select</option>
+              <option>Bath & Brush</option>
+              <option>Full Groom</option>
+              <option>Cat Groom</option>
+            </select>
+          </label></div>
+          <div class="form-row"><label>Date<br><input class="input" name="date" type="date" required></label></div>
+          <div class="form-row"><label>Time<br><input class="input" name="time" type="time" required></label></div>
+          <div class="form-row" style="grid-column:1/-1;"><label>Locality / Address<br><input class="input" name="address" placeholder="e.g., Andheri West"></label></div>
+          <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Submit</button></div>
+          <div id="booking-msg" data-msg style="font-weight:700;"></div>
+        </form>
+        <p class="note">We’ll connect this to your CRM/payments next.</p>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn secondary" data-close>Close</button>
+      </div>
+    </div>
   </div>
 
   <main id="top">
@@ -56,23 +95,17 @@
           <a class="cta" href="#" data-open-booking>Book now</a>
           <a class="cta" href="/install.html" data-install style="display:none">Install App</a>
         </div>
-        <aside class="card" aria-label="Early access">
+        <aside class="card" aria-label="Quick booking">
           <h2 id="waitlist">Get on the early access list</h2>
-          <form id="waitlist-form" novalidate aria-describedby="wl-msg">
-            <label>Email
-              <input class="input" name="email" type="email" autocomplete="email" required>
-            </label><br><br>
-            <label>Phone
-              <input class="input" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-                     pattern="^(\+?91)?[6-9]\d{9}$" title="Enter a valid Indian mobile number" required>
-            </label><br><br>
-            <label>City/Locality
-              <input class="input" name="locality" required>
-            </label><br><br>
+          <form id="waitlist-form" action="https://formspree.io/f/xnnbwpjo" method="POST" aria-describedby="wl-msg">
+            <input type="hidden" name="_subject" value="New Waitlist Signup (Fluryy)">
+            <input type="hidden" name="_next" value="https://www.fluryy.com/thanks.html">
+            <label>Email<br><input class="input" name="email" type="email" required placeholder="you@example.com" aria-label="Email"></label><br><br>
+            <label>City/Locality<br><input class="input" name="locality" type="text" required placeholder="e.g., Borivali West"></label><br><br>
             <button class="btn" type="submit">Join Waitlist</button>
             <div data-msg id="wl-msg" style="margin-top:.5rem;font-weight:700;"></div>
           </form>
-          <p class="note">We’ll sync this to CRM automatically.</p>
+          <p class="note">We’ll switch this to CRM soon.</p>
         </aside>
       </div>
     </section>
@@ -116,23 +149,13 @@
         </div>
         <div class="card">
           <h3>Book a discovery call</h3>
-          <form id="contact-form" novalidate aria-describedby="call-msg">
-            <label>Your name
-              <input class="input" name="name" type="text" required>
-            </label><br><br>
-            <label>Phone
-              <input class="input" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-                     pattern="^(\+?91)?[6-9]\d{9}$" title="Enter a valid Indian mobile number" required>
-            </label><br><br>
-            <label>Pet type
-              <input class="input" name="topic" type="text" required>
-            </label><br><br>
-            <label>Preferred time
-              <input class="input" name="time" type="text" required>
-            </label><br><br>
-            <label>Email
-              <input class="input" name="email" type="email" autocomplete="email" required>
-            </label><br><br>
+          <form id="contact-form" action="https://formspree.io/f/xandveqk" method="POST" aria-describedby="call-msg">
+            <input type="hidden" name="_subject" value="Contact / Discovery Call (Fluryy)">
+            <input type="hidden" name="_next" value="https://www.fluryy.com/thanks.html">
+            <label>Your name<br><input class="input" name="name" type="text" required></label><br><br>
+            <label>Pet type<br><input class="input" name="topic" type="text" required placeholder="Dog / Cat + breed"></label><br><br>
+            <label>Preferred time<br><input class="input" name="time" type="text" required placeholder="e.g., Sat morning"></label><br><br>
+            <label>Email<br><input class="input" name="email" type="email" required placeholder="you@example.com"></label><br><br>
             <button class="btn" type="submit">Request call</button>
             <div data-msg id="call-msg" style="margin-top:.5rem;font-weight:700;"></div>
           </form>
@@ -145,9 +168,9 @@
     <div class="container footer-inner">
       <div>&copy; 2025 Fluryy. All rights reserved.</div>
       <div class="links">
-        <a href="#how">How it Works</a>
-        <a href="#services">Services</a>
-        <a href="#areas">Areas</a>
+        <a href="/index.html#how">How it Works</a>
+        <a href="/index.html#services">Services</a>
+        <a href="/index.html#areas">Areas</a>
         <a href="/providers.html">For Groomers</a>
         <a href="/pets.html">My Pets</a>
         <a href="/robots.txt">Robots</a>
@@ -156,50 +179,6 @@
     </div>
   </footer>
 
-  <!-- Booking Modal -->
-  <div id="booking-modal" class="modal" aria-modal="true" role="dialog" aria-labelledby="booking-title" aria-hidden="true">
-    <div class="dialog">
-      <div class="dialog-header">
-        <div id="booking-title" class="dialog-title">Quick Booking</div>
-        <button class="icon-btn" data-close aria-label="Close">✕</button>
-      </div>
-      <div class="dialog-body">
-        <form id="booking-form" novalidate class="form-grid" aria-describedby="booking-msg">
-          <div class="form-row"><label>Your name
-            <input class="input" name="name" required>
-          </label></div>
-          <div class="form-row"><label>Email
-            <input class="input" name="email" type="email" autocomplete="email" required>
-          </label></div>
-          <div class="form-row"><label>Phone
-            <input class="input" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-                   pattern="^(\+?91)?[6-9]\d{9}$" title="Enter a valid Indian mobile number" required>
-          </label></div>
-          <div class="form-row"><label>Service
-            <select class="input" name="service" required>
-              <option value="">Select a service</option>
-              <option>Bath &amp; Brush</option>
-              <option>Full Groom</option>
-              <option>Cat Groom</option>
-            </select>
-          </label></div>
-          <div class="form-row"><label>Preferred Date &amp; Time
-            <input class="input" name="starts_at" type="datetime-local" required>
-          </label></div>
-          <div class="form-row" style="grid-column:1/-1;"><label>Locality / Address
-            <input class="input" name="address">
-          </label></div>
-          <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Submit</button></div>
-          <div id="booking-msg" data-msg style="font-weight:700;"></div>
-        </form>
-        <p class="note">We’ll connect this to your CRM/payments next.</p>
-      </div>
-      <div class="dialog-actions">
-        <button class="btn secondary" data-close>Close</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="/js/main.js?v=1.2.3" defer></script>
+  <script src="/js/main.js?v=v1.2.1" defer></script>
 </body>
 </html>
