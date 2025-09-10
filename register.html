@@ -1,1 +1,36 @@
-<!-- register.html with Supabase OTP -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fluryy — Register</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.3" />
+</head>
+<body>
+  <header class="header"><div class="container header-inner"><a class="brand" href="/"><img src="/assets/logo-fluryy.svg" alt="Fluryy logo" class="logo"/></a><div data-account class="nav"></div></div></header>
+  <main class="section">
+    <div class="container" style="max-width:720px">
+      <h1>Create your account</h1>
+      <div class="card">
+        <form id="register-form" class="form-grid">
+          <div class="form-row"><label>Email<br><input class="input" name="email" type="email" required placeholder="you@example.com"></label></div>
+          <div class="form-row"><label>Role<br>
+            <select class="input" name="role" required>
+              <option value="parent">Pet Parent</option>
+              <option value="groomer">Service Provider</option>
+              <option value="admin">Admin</option>
+            </select>
+          </label></div>
+          <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Send signup link</button></div>
+          <div data-msg class="note"></div>
+        </form>
+        <p class="note">You’ll get a magic link to sign in.</p>
+      </div>
+      <p>Already have an account? <a href="/login.html">Login</a></p>
+    </div>
+  </main>
+  <footer class="footer"><div class="container footer-inner"><div>&copy; 2025 Fluryy</div></div></footer>
+  <script src="/js/main.js?v=1.2.3" defer></script>
+</body>
+</html>

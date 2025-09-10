@@ -1,1 +1,44 @@
-<!-- dashboard.html with pets/bookings counts -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fluryy — Dashboard</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.3" />
+</head>
+<body data-protected>
+  <header class="header"><div class="container header-inner"><a class="brand" href="/"><img src="/assets/logo-fluryy.svg" alt="Fluryy logo" class="logo"/></a><div data-account class="nav"></div></div></header>
+  <main class="section">
+    <div class="container">
+      <h1>Dashboard</h1>
+      <div id="dashboard">
+        <p class="lead">Welcome, <strong data-name></strong> (<span data-role>Parent</span>)</p>
+        <p class="note">You have <strong data-count-pets>0</strong> pet(s) and <strong data-count-bookings>0</strong> booking(s).</p>
+
+        <div class="columns">
+          <div class="card" data-panel="parent">
+            <h3>Your Pets</h3>
+            <p>Manage pet profiles and quick book.</p>
+            <p><a class="cta" href="/pets.html">Go to My Pets</a></p>
+          </div>
+
+          <div class="card" data-panel="groomer">
+            <h3>Your Provider Profile</h3>
+            <p>Keep your skills, areas and availability up to date.</p>
+            <p><a class="cta" href="/providers.html">Go to Provider Portal</a></p>
+          </div>
+
+          <div class="card" data-panel="all">
+            <h3>Make a Booking</h3>
+            <p>Pick service, date & time.</p>
+            <p><a class="cta" href="#" data-open-booking>Book now</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer"><div class="container footer-inner"><div>&copy; 2025 Fluryy</div></div></footer>
+  <script src="/js/main.js?v=1.2.3" defer></script>
+</body>
+</html>
