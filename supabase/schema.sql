@@ -1,0 +1,1 @@
+-- schema trimmed; same as earlier — includes pets, groomers, bookings, waitlist, contacts with RLS

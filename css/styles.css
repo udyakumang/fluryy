@@ -1,21 +1,21 @@
+/* minimal preserved layout */
 :root{--brand:#2F80ED;--ink:#203048;--accent:#FF7A00;--bg:#F7FBFF;--ring:rgba(47,128,237,.25)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
 .container{width:min(1140px,92%);margin:0 auto}
 .header{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid #e6eef8}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 0;gap:.75rem}
-.logo-text{font-weight:900;letter-spacing:.5px}
-.menu-toggle{display:none}
+.logo{height:36px}.menu-toggle{display:none}
 .nav{display:flex;gap:.5rem;flex-wrap:wrap}
 .nav a{color:var(--ink);text-decoration:none;padding:.4rem .55rem;border-radius:8px;font-weight:600}
 .nav a:hover{color:var(--brand);background:#eef4ff}
-.cta{padding:.55rem .9rem;border-radius:12px;background:#2F80ED;color:#fff;text-decoration:none;font-weight:800}
+.cta{padding:.55rem .9rem;border-radius:12px;background:var(--brand);color:#fff;text-decoration:none;font-weight:800}
 .hero{background:linear-gradient(120deg,#E9F5FF 0%,#fff 60%);padding:64px 0 32px;border-bottom:1px solid #e6eef8}
 .grid{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:start}
 .card{background:#fff;border:1px solid #e6eef8;border-radius:16px;padding:1rem;box-shadow:0 10px 32px rgba(0,0,0,.05)}
 .input, select, textarea{width:100%;padding:.9rem 1rem;border-radius:12px;border:1px solid #d9e6fb;background:#fff;font-size:16px}
 .input:focus, select:focus, textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px var(--ring)}
-.btn{padding:.9rem 1rem;border-radius:12px;border:0;background:#FF7A00;color:#fff;font-weight:800;cursor:pointer}
+.btn{padding:.9rem 1rem;border-radius:12px;border:0;background:var(--accent);color:#fff;font-weight:800;cursor:pointer}
 .section{padding:48px 0}
 .footer{background:#203048;color:#d6e6ff;padding:28px 0}.footer a{color:#fff;text-decoration:none}
 .mobile-cta{display:none}
