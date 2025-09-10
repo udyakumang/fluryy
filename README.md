@@ -1,1 +1,0 @@
-# Fluryy v1.2.4 — Full site\n\nUnzip into your repo root and push. Run Supabase schema once via the SQL editor. Optional CRM webhook requires Vercel/Netlify.
