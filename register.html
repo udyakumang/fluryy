@@ -1,123 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="en"><head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fluryy — Register</title>
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="stylesheet" href="/css/styles.css?v=v1.2.1" />
-</head>
-<body>
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.5" />
+</head><body>
 
-  <header class="header">
-    <div class="container header-inner">
-      <a class="brand" href="/index.html" aria-label="Fluryy home">
-        <img src="/assets/logo-fluryy.svg" alt="Fluryy logo" class="logo" />
-      </a>
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
-      <nav class="nav" aria-label="Primary">
-        <a href="/index.html#how">How it Works</a>
-        <a href="/index.html#services">Services</a>
-        <a href="/index.html#areas">Service Areas</a>
-        <a href="/providers.html">For Groomers</a>
-        <a href="/pets.html">My Pets</a>
-        <a href="/index.html#contact">Contact</a>
-      </nav>
-      <div data-account class="nav"></div>
-    </div>
-  </header>
+<header class="header"><div class="container header-inner">
+  <a class="brand" href="/index.html"><span class="logo-text">Fluryy</span></a>
+  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+  <nav class="nav" aria-label="Primary">
+    <a href="/index.html#how">How it Works</a>
+    <a href="/index.html#services">Services</a>
+    <a href="/index.html#areas">Service Areas</a>
+    <a href="/providers.html">For Groomers</a>
+    <a href="/pets.html">My Pets</a>
+    <a href="/index.html#contact">Contact</a>
+  </nav>
+  <div data-account class="nav"></div>
+</div></header>
+<div class="mobile-cta" role="region" aria-label="Quick actions">
+  <button class="btn" data-open-booking>Book now</button>
+  <button class="btn" data-open-booking>Join waitlist</button>
+</div>
 
-  <!-- Install banner near top on homepage -->
-  <div class="container install-banner" data-install-banner>
-    <strong>Install Fluryy</strong>
-    <p>Add the app to your device for faster booking and offline access.</p>
-    <div class="install-actions">
-      <button class="btn" data-install-banner-btn>Install App</button>
-      <a class="cta outline" href="/install.html">How to install</a>
-    </div>
+<main class="section"><div class="container">
+
+<h1>Create your account</h1>
+<div class="card">
+  <form id="register-form">
+    <label>Email<input class="input" name="email" type="email" required></label><br><br>
+    <label>Role<select class="input" name="role" required><option value="parent">Pet Parent</option><option value="groomer">Service Provider</option><option value="admin">Admin</option></select></label><br><br>
+    <button class="btn" type="submit">Send signup link</button>
+    <div data-msg class="note"></div>
+  </form>
+  <p class="note">You’ll get a magic link to sign in.</p>
+</div>
+<p class="note">Already have an account? <a href="/login.html">Login</a></p>
+
+</div></main>
+
+<footer class="footer"><div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
+  <div>&copy; 2025 Fluryy. All rights reserved.</div>
+  <div class="links">
+    <a href="/index.html#how">How it Works</a>
+    <a href="/index.html#services">Services</a>
+    <a href="/index.html#areas">Areas</a>
+    <a href="/providers.html">For Groomers</a>
+    <a href="/pets.html">My Pets</a>
   </div>
+</div></footer>
 
-  <!-- Mobile sticky CTA -->
-  <div class="mobile-cta" role="region" aria-label="Quick actions">
-    <button class="btn" data-open-booking>Book now</button>
-    <button class="btn secondary" data-open-booking>Join waitlist</button>
-    <button class="btn" style="display:none" data-install-mobile>Install app</button>
-  </div>
-
-  <!-- Booking Modal -->
-  <div id="booking-modal" class="modal" aria-modal="true" role="dialog" aria-labelledby="booking-title" aria-hidden="true">
-    <div class="dialog">
-      <div class="dialog-header">
-        <div id="booking-title" class="dialog-title">Quick Booking</div>
-        <button class="icon-btn" data-close aria-label="Close">✕</button>
-      </div>
-      <div class="dialog-body">
-        <form id="booking-form" action="https://formspree.io/f/mqadnpeo" method="POST" class="form-grid" aria-describedby="booking-msg">
-          <input type="hidden" name="_subject" value="New Booking Request from Fluryy">
-          <input type="hidden" name="_next" value="https://www.fluryy.com/thanks.html">
-          <div class="form-row"><label>Your name<br><input class="input" name="name" required></label></div>
-          <div class="form-row"><label>Email<br><input class="input" name="email" type="email" required placeholder="you@example.com"></label></div>
-          <div class="form-row"><label>Phone<br><input class="input" name="phone" type="tel" required placeholder="+91…"></label></div>
-          <div class="form-row"><label>Service<br>
-            <select class="input" name="service" required>
-              <option value="">Select</option>
-              <option>Bath & Brush</option>
-              <option>Full Groom</option>
-              <option>Cat Groom</option>
-            </select>
-          </label></div>
-          <div class="form-row"><label>Date<br><input class="input" name="date" type="date" required></label></div>
-          <div class="form-row"><label>Time<br><input class="input" name="time" type="time" required></label></div>
-          <div class="form-row" style="grid-column:1/-1;"><label>Locality / Address<br><input class="input" name="address" placeholder="e.g., Andheri West"></label></div>
-          <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Submit</button></div>
-          <div id="booking-msg" data-msg style="font-weight:700;"></div>
-        </form>
-        <p class="note">We’ll connect this to your CRM/payments next.</p>
-      </div>
-      <div class="dialog-actions">
-        <button class="btn secondary" data-close>Close</button>
-      </div>
-    </div>
-  </div>
-
-  <main class="section">
-    <div class="container" style="max-width:720px">
-      <h1>Create your account</h1>
-      <div class="card">
-        <form id="register-form" class="form-grid">
-          <div class="form-row"><label>Name<br><input class="input" name="name" required></label></div>
-          <div class="form-row"><label>Email<br><input class="input" name="email" type="email" required placeholder="you@example.com"></label></div>
-          <div class="form-row"><label>Password<br><input class="input" name="password" type="password" required></label></div>
-          <div class="form-row"><label>Role<br>
-            <select class="input" name="role" required>
-              <option value="parent">Pet Parent</option>
-              <option value="groomer">Service Provider</option>
-              <option value="admin">Admin</option>
-            </select>
-          </label></div>
-          <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Create account</button></div>
-        </form>
-        <p class="note">Demo only — we’ll add verification & secure storage later.</p>
-      </div>
-      <p>Already have an account? <a href="/login.html">Login</a></p>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>&copy; 2025 Fluryy. All rights reserved.</div>
-      <div class="links">
-        <a href="/index.html#how">How it Works</a>
-        <a href="/index.html#services">Services</a>
-        <a href="/index.html#areas">Areas</a>
-        <a href="/providers.html">For Groomers</a>
-        <a href="/pets.html">My Pets</a>
-        <a href="/robots.txt">Robots</a>
-        <a href="/sitemap.xml">Sitemap</a>
-      </div>
-    </div>
-  </footer>
-
-  <script src="/js/main.js?v=v1.2.1" defer></script>
-</body>
-</html>
+<script src="/js/main.js?v=1.2.5" defer></script>
+</body></html>
