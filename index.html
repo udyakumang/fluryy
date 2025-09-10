@@ -1,52 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fluryy — Home</title>
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.4">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fluryy — Pet Grooming Bookings (Mumbai)</title>
+  <meta name="description" content="Fluryy connects pet parents with vetted groomers for at-home or in-salon grooming from Borivali to Bandra." />
+  <meta name="theme-color" content="#2F80ED">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.3" />
 </head>
 <body>
-  <header><h1>Fluryy</h1></header>
-  <main>
-    <section id="waitlist">
-      <h2>Join Waitlist</h2>
-      <form id="waitlist-form" novalidate>
-        <label>Email<br><input class="input" name="email" type="email" required></label>
-        <label>Phone<br><input class="input" name="phone" type="tel" pattern="^(\+?91)?[6-9]\d{9}$" required></label>
-        <label>City/Locality<br><input class="input" name="locality" required></label>
-        <button class="btn" type="submit">Join Waitlist</button>
-        <div data-msg></div>
-      </form>
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="/index.html" aria-label="Fluryy home">
+        <img src="/assets/logo-fluryy.svg" alt="Fluryy logo" class="logo" />
+      </a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+      <nav class="nav" aria-label="Primary">
+        <a href="#how">How it Works</a>
+        <a href="#services">Services</a>
+        <a href="#areas">Service Areas</a>
+        <a href="/providers.html">For Groomers</a>
+        <a href="/pets.html">My Pets</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div data-account class="nav"></div>
+    </div>
+  </header>
+
+  <div class="container install-banner" data-install-banner>
+    <strong>Install Fluryy</strong>
+    <p>Add the app to your device for faster booking and offline access.</p>
+    <div class="install-actions">
+      <button class="btn" data-install-banner-btn>Install App</button>
+      <a class="cta outline" href="/install.html">How to install</a>
+    </div>
+  </div>
+
+  <div class="mobile-cta" role="region" aria-label="Quick actions">
+    <button class="btn" data-open-booking>Book now</button>
+    <button class="btn secondary" data-open-booking>Join waitlist</button>
+    <button class="btn" style="display:none" data-install-mobile>Install app</button>
+  </div>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container grid">
+        <div>
+          <h1>Mumbai’s easiest way to book pet grooming</h1>
+          <p class="lead">Doorstep or salon — vetted groomers, transparent pricing, and reliable slots. Now onboarding across <strong>Borivali → Bandra</strong>.</p>
+          <div class="badges">
+            <span class="badge">At‑home grooming</span><span class="badge">In‑salon bookings</span><span class="badge">Verified professionals</span><span class="badge">Secure payments</span>
+          </div>
+          <a class="cta" href="#" data-open-booking>Book now</a>
+          <a class="cta" href="/install.html" data-install style="display:none">Install App</a>
+        </div>
+        <aside class="card" aria-label="Early access">
+          <h2 id="waitlist">Get on the early access list</h2>
+          <form id="waitlist-form" novalidate aria-describedby="wl-msg">
+            <label>Email
+              <input class="input" name="email" type="email" autocomplete="email" required>
+            </label><br><br>
+            <label>Phone
+              <input class="input" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                     pattern="^(\+?91)?[6-9]\d{9}$" title="Enter a valid Indian mobile number" required>
+            </label><br><br>
+            <label>City/Locality
+              <input class="input" name="locality" required>
+            </label><br><br>
+            <button class="btn" type="submit">Join Waitlist</button>
+            <div data-msg id="wl-msg" style="margin-top:.5rem;font-weight:700;"></div>
+          </form>
+          <p class="note">We’ll sync this to CRM automatically.</p>
+        </aside>
+      </div>
     </section>
-    <section id="booking">
-      <h2>Book Grooming</h2>
-      <form id="booking-form" novalidate>
-        <label>Name<br><input class="input" name="name" required></label>
-        <label>Email<br><input class="input" name="email" type="email" required></label>
-        <label>Phone<br><input class="input" name="phone" type="tel" pattern="^(\+?91)?[6-9]\d{9}$" required></label>
-        <label>Service<br><select class="input" name="service" required>
-          <option value="">Select</option><option>Bath & Brush</option><option>Full Groom</option><option>Cat Groom</option>
-        </select></label>
-        <label>Date & Time<br><input class="input" name="starts_at" type="datetime-local" required></label>
-        <label>Address<br><input class="input" name="address"></label>
-        <button class="btn" type="submit">Submit</button>
-        <div data-msg></div>
-      </form>
+
+    <section id="how" class="section">
+      <div class="container columns">
+        <div class="card"><h3>1) Tell us your pet’s needs</h3><p>Dog or cat, breed, coat, special notes.</p></div>
+        <div class="card"><h3>2) Choose at‑home or salon</h3><p>Pick a time slot; see clear pricing and inclusions.</p></div>
+        <div class="card"><h3>3) Groomer arrives, we track</h3><p>Live updates, quality checks, and support from Fluryy.</p></div>
+      </div>
     </section>
-    <section id="contact">
-      <h2>Contact Us</h2>
-      <form id="contact-form" novalidate>
-        <label>Name<br><input class="input" name="name" required></label>
-        <label>Pet Type<br><input class="input" name="topic" required></label>
-        <label>Preferred Time<br><input class="input" name="time" required></label>
-        <label>Email<br><input class="input" name="email" type="email" required></label>
-        <label>Phone<br><input class="input" name="phone" type="tel" pattern="^(\+?91)?[6-9]\d{9}$" required></label>
-        <button class="btn" type="submit">Request Call</button>
-        <div data-msg></div>
-      </form>
+
+    <section id="services" class="section alt">
+      <div class="container columns">
+        <div class="card"><h3>Bath & Brush</h3><p>Shampoo, blow-dry, brushing, nail trim, ear & paw care.</p></div>
+        <div class="card"><h3>Full Groom</h3><p>Breed cut/styling, sanitary trim, de-shedding, hygiene package.</p></div>
+        <div class="card"><h3>Cat Groom</h3><p>Gentle handling, mat removal, comb cut.</p></div>
+      </div>
+    </section>
+
+    <section id="areas" class="section">
+      <div class="container">
+        <h2>Service Areas (Mumbai)</h2>
+        <p class="lead">Starting corridor: <strong>Borivali → Kandivali → Malad → Andheri → Khar → Bandra</strong>. More soon.</p>
+        <div class="pillbox">
+          <div class="pill">Borivali (W/E)</div><div class="pill">Kandivali</div><div class="pill">Malad</div><div class="pill">Goregaon</div>
+          <div class="pill">Jogeshwari</div><div class="pill">Andheri</div><div class="pill">Juhu</div><div class="pill">Khar</div>
+          <div class="pill">Bandra</div><div class="pill">Santacruz</div><div class="pill">Vile Parle</div><div class="pill">More</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container grid">
+        <div>
+          <h2>Contact</h2>
+          <p class="lead">Questions, partnerships, or press? We’d love to talk.</p>
+          <p><strong>Email:</strong> <button class="btn secondary" type="button" data-email>Tap to email</button></p>
+          <p><strong>WhatsApp:</strong> <button class="btn secondary" type="button" data-phone>Open chat</button></p>
+          <p><strong>Location:</strong> Mumbai, India</p>
+        </div>
+        <div class="card">
+          <h3>Book a discovery call</h3>
+          <form id="contact-form" novalidate aria-describedby="call-msg">
+            <label>Your name
+              <input class="input" name="name" type="text" required>
+            </label><br><br>
+            <label>Phone
+              <input class="input" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                     pattern="^(\+?91)?[6-9]\d{9}$" title="Enter a valid Indian mobile number" required>
+            </label><br><br>
+            <label>Pet type
+              <input class="input" name="topic" type="text" required>
+            </label><br><br>
+            <label>Preferred time
+              <input class="input" name="time" type="text" required>
+            </label><br><br>
+            <label>Email
+              <input class="input" name="email" type="email" autocomplete="email" required>
+            </label><br><br>
+            <button class="btn" type="submit">Request call</button>
+            <div data-msg id="call-msg" style="margin-top:.5rem;font-weight:700;"></div>
+          </form>
+        </div>
+      </div>
     </section>
   </main>
-  <footer>&copy; 2025 Fluryy</footer>
-  <script src="/js/main.js?v=1.2.4" defer></script>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>&copy; 2025 Fluryy. All rights reserved.</div>
+      <div class="links">
+        <a href="#how">How it Works</a>
+        <a href="#services">Services</a>
+        <a href="#areas">Areas</a>
+        <a href="/providers.html">For Groomers</a>
+        <a href="/pets.html">My Pets</a>
+        <a href="/robots.txt">Robots</a>
+        <a href="/sitemap.xml">Sitemap</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="modal" aria-modal="true" role="dialog" aria-labelledby="booking-title" aria-hidden="true">
+    <div class="dialog">
+      <div class="dialog-header">
+        <div id="booking-title" class="dialog-title">Quick Booking</div>
+        <button class="icon-btn" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="dialog-body">
+        <form id="booking-form" novalidate class="form-grid" aria-describedby="booking-msg">
+          <div class="form-row"><label>Your name
+            <input class="input" name="name" required>
+          </label></div>
+          <div class="form-row"><label>Email
+            <input class="input" name="email" type="email" autocomplete="email" required>
+          </label></div>
+          <div class="form-row"><label>Phone
+            <input class="input" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                   pattern="^(\+?91)?[6-9]\d{9}$" title="Enter a valid Indian mobile number" required>
+          </label></div>
+          <div class="form-row"><label>Service
+            <select class="input" name="service" required>
+              <option value="">Select a service</option>
+              <option>Bath &amp; Brush</option>
+              <option>Full Groom</option>
+              <option>Cat Groom</option>
+            </select>
+          </label></div>
+          <div class="form-row"><label>Preferred Date &amp; Time
+            <input class="input" name="starts_at" type="datetime-local" required>
+          </label></div>
+          <div class="form-row" style="grid-column:1/-1;"><label>Locality / Address
+            <input class="input" name="address">
+          </label></div>
+          <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Submit</button></div>
+          <div id="booking-msg" data-msg style="font-weight:700;"></div>
+        </form>
+        <p class="note">We’ll connect this to your CRM/payments next.</p>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn secondary" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/main.js?v=1.2.3" defer></script>
 </body>
 </html>
