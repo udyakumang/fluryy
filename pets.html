@@ -2,40 +2,46 @@
 <html lang="en"><head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fluryy — My Pets</title>
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.5" />
+  <meta name="description" content="Fluryy — premium pet grooming platform in Mumbai." />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon-128.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#2F80ED">
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
 </head><body data-protected>
 
 <header class="header"><div class="container header-inner">
-  <a class="brand" href="/index.html"><span class="logo-text">Fluryy</span></a>
+  <a class="brand" href="/index.html" aria-label="Fluryy home">
+    <img src="/assets/logo-fluryy.svg" alt="" width="120" height="28" loading="eager"/>
+    <span class="logo-text" aria-hidden="true">Fluryy</span>
+  </a>
   <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
   <nav class="nav" aria-label="Primary">
     <a href="/index.html#how">How it Works</a>
     <a href="/index.html#services">Services</a>
-    <a href="/index.html#areas">Service Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
+    <a href="/index.html#areas">Areas</a>
+    <a href="/index.html#safety">Safety</a>
+    <a href="/index.html#faq">FAQ</a>
     <a href="/index.html#contact">Contact</a>
   </nav>
   <div data-account class="nav"></div>
 </div></header>
-<div class="mobile-cta" role="region" aria-label="Quick actions">
-  <button class="btn" data-open-booking>Book now</button>
-  <button class="btn" data-open-booking>Join waitlist</button>
-</div>
 
 <main class="section"><div class="container">
 
 <h1>My Pets</h1>
-<div class="card" style="margin-top:1rem">
-  <form id="pet-add-form" class="form-grid">
-    <label>Pet name<input class="input" name="name" required></label><br><br>
-    <label>Species<select name="species" class="input" required><option value="">Select</option><option>dog</option><option>cat</option></select></label><br><br>
-    <label>Breed<input class="input" name="breed"></label><br><br>
-    <label>Birthdate<input class="input" name="birthdate" type="date"></label><br><br>
-    <label>Weight (kg)<input class="input" name="weight" type="number" step="0.1" min="0"></label><br><br>
-    <label>Notes<textarea class="input" name="notes" rows="4"></textarea></label><br><br>
-    <button class="btn" type="submit">Save Pet</button>
-    <div id="pet-msg" data-msg style="font-weight:700;"></div>
+<p class="help">Add your pets so we can personalize recommendations when booking opens.</p>
+<div class="card">
+  <form id="pet-add-form" class="form-grid" novalidate aria-describedby="pet-msg">
+    <div class="form-row"><label for="pet-name">Pet name</label><input id="pet-name" class="input" name="name" required></div>
+    <div class="form-row"><label for="pet-species">Species</label><select id="pet-species" class="input" name="species"><option value="dog">Dog</option><option value="cat">Cat</option></select></div>
+    <div class="form-row"><label for="pet-breed">Breed</label><input id="pet-breed" class="input" name="breed"></div>
+    <div class="form-row"><label for="pet-birth">Birthdate</label><input id="pet-birth" class="input" name="birthdate" type="date"></div>
+    <div class="form-row"><label for="pet-weight">Weight (kg)</label><input id="pet-weight" class="input" name="weight" type="number" min="0" step="0.1"></div>
+    <div class="form-row" style="grid-column:1/-1;"><label for="pet-notes">Notes</label><textarea id="pet-notes" class="input" name="notes" rows="3" placeholder="Allergies, sensitivities, preferences..."></textarea></div>
+    <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Save Pet</button></div>
+    <div id="pet-msg" data-msg class="help" style="font-weight:700;"></div>
   </form>
 </div>
 
@@ -47,10 +53,12 @@
     <a href="/index.html#how">How it Works</a>
     <a href="/index.html#services">Services</a>
     <a href="/index.html#areas">Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
+    <a href="/index.html#safety">Safety</a>
+    <a href="/index.html#faq">FAQ</a>
+    <a href="/index.html#contact">Contact</a>
   </div>
 </div></footer>
 
-<script src="/js/main.js?v=1.2.5" defer></script>
+<script src="/js/main.js?v=1.2.7" defer></script>
+<script src="/js/pwa-register.js" defer></script>
 </body></html>

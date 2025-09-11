@@ -2,37 +2,51 @@
 <html lang="en"><head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fluryy — Dashboard</title>
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.5" />
+  <meta name="description" content="Fluryy — premium pet grooming platform in Mumbai." />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon-128.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#2F80ED">
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
 </head><body data-protected>
 
 <header class="header"><div class="container header-inner">
-  <a class="brand" href="/index.html"><span class="logo-text">Fluryy</span></a>
+  <a class="brand" href="/index.html" aria-label="Fluryy home">
+    <img src="/assets/logo-fluryy.svg" alt="" width="120" height="28" loading="eager"/>
+    <span class="logo-text" aria-hidden="true">Fluryy</span>
+  </a>
   <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
   <nav class="nav" aria-label="Primary">
     <a href="/index.html#how">How it Works</a>
     <a href="/index.html#services">Services</a>
-    <a href="/index.html#areas">Service Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
+    <a href="/index.html#areas">Areas</a>
+    <a href="/index.html#safety">Safety</a>
+    <a href="/index.html#faq">FAQ</a>
     <a href="/index.html#contact">Contact</a>
   </nav>
   <div data-account class="nav"></div>
 </div></header>
-<div class="mobile-cta" role="region" aria-label="Quick actions">
-  <button class="btn" data-open-booking>Book now</button>
-  <button class="btn" data-open-booking>Join waitlist</button>
-</div>
 
 <main class="section"><div class="container">
 
 <h1>Dashboard</h1>
-<div id="dashboard">
-  <p class="lead">Welcome, <strong data-name></strong> (<span data-role>Parent</span>)</p>
-  <p class="note">You have <strong data-count-pets>0</strong> pet(s) and <strong data-count-bookings>0</strong> booking(s).</p>
-  <div class="columns">
-    <div class="card"><h3>Your Pets</h3><p><a class="cta" href="/pets.html">Go to My Pets</a></p></div>
-    <div class="card"><h3>Your Provider Profile</h3><p><a class="cta" href="/providers.html">Go to Provider Portal</a></p></div>
-    <div class="card"><h3>Make a Booking</h3><p><a class="cta" href="#" data-open-booking>Book now</a></p></div>
+<p class="help">Welcome back. Quick glance at your pets and requests.</p>
+<div class="columns">
+  <div class="card">
+    <h3>Your Pets</h3>
+    <p class="help">Count: <strong data-count-pets>0</strong></p>
+    <a class="btn btn-outline" href="/pets.html">Manage pets</a>
+  </div>
+  <div class="card">
+    <h3>Your Bookings</h3>
+    <p class="help">Count: <strong data-count-bookings>0</strong></p>
+    <a class="btn btn-outline" href="/index.html#waitlist">Join waitlist</a>
+  </div>
+  <div class="card">
+    <h3>Profile</h3>
+    <p class="help">Signed in as <strong data-name></strong></p>
+    <button class="btn" data-logout>Logout</button>
   </div>
 </div>
 
@@ -44,10 +58,12 @@
     <a href="/index.html#how">How it Works</a>
     <a href="/index.html#services">Services</a>
     <a href="/index.html#areas">Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
+    <a href="/index.html#safety">Safety</a>
+    <a href="/index.html#faq">FAQ</a>
+    <a href="/index.html#contact">Contact</a>
   </div>
 </div></footer>
 
-<script src="/js/main.js?v=1.2.5" defer></script>
+<script src="/js/main.js?v=1.2.7" defer></script>
+<script src="/js/pwa-register.js" defer></script>
 </body></html>

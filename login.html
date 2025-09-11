@@ -2,38 +2,43 @@
 <html lang="en"><head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fluryy — Login</title>
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.5" />
+  <meta name="description" content="Fluryy — premium pet grooming platform in Mumbai." />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon-128.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#2F80ED">
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
 </head><body>
 
 <header class="header"><div class="container header-inner">
-  <a class="brand" href="/index.html"><span class="logo-text">Fluryy</span></a>
+  <a class="brand" href="/index.html" aria-label="Fluryy home">
+    <img src="/assets/logo-fluryy.svg" alt="" width="120" height="28" loading="eager"/>
+    <span class="logo-text" aria-hidden="true">Fluryy</span>
+  </a>
   <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
   <nav class="nav" aria-label="Primary">
     <a href="/index.html#how">How it Works</a>
     <a href="/index.html#services">Services</a>
-    <a href="/index.html#areas">Service Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
+    <a href="/index.html#areas">Areas</a>
+    <a href="/index.html#safety">Safety</a>
+    <a href="/index.html#faq">FAQ</a>
     <a href="/index.html#contact">Contact</a>
   </nav>
   <div data-account class="nav"></div>
 </div></header>
-<div class="mobile-cta" role="region" aria-label="Quick actions">
-  <button class="btn" data-open-booking>Book now</button>
-  <button class="btn" data-open-booking>Join waitlist</button>
-</div>
 
 <main class="section"><div class="container">
 
 <h1>Login</h1>
+<p class="help">Enter your email and we’ll send a secure magic link.</p>
 <div class="card">
-  <form id="login-form">
-    <label>Email<input class="input" name="email" type="email" required></label><br><br>
-    <button class="btn" type="submit">Send login link</button>
-    <div data-msg class="note"></div>
+  <form id="login-form" class="form-grid" novalidate>
+    <div class="form-row" style="grid-column:1/-1;"><label for="lg-email">Email</label><input id="lg-email" class="input" name="email" type="email" required autocomplete="email"></div>
+    <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Send login link</button></div>
+    <div data-msg class="help" style="font-weight:700;"></div>
   </form>
 </div>
-<p class="note">New here? <a href="/register.html">Create an account</a></p>
 
 </div></main>
 
@@ -43,10 +48,12 @@
     <a href="/index.html#how">How it Works</a>
     <a href="/index.html#services">Services</a>
     <a href="/index.html#areas">Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
+    <a href="/index.html#safety">Safety</a>
+    <a href="/index.html#faq">FAQ</a>
+    <a href="/index.html#contact">Contact</a>
   </div>
 </div></footer>
 
-<script src="/js/main.js?v=1.2.5" defer></script>
+<script src="/js/main.js?v=1.2.7" defer></script>
+<script src="/js/pwa-register.js" defer></script>
 </body></html>

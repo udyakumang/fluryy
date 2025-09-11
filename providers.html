@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Fluryy — Groomer Portal</title>
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.5" />
-</head><body data-protected>
+  <title>Fluryy — Groomer Onboarding</title>
+  <meta name="description" content="Fluryy — premium pet grooming platform in Mumbai." />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon-128.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#2F80ED">
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
+</head><body>
 
 <header class="header"><div class="container header-inner">
-  <a class="brand" href="/index.html"><span class="logo-text">Fluryy</span></a>
+  <a class="brand" href="/index.html" aria-label="Fluryy home">
+    <img src="/assets/logo-fluryy.svg" alt="" width="120" height="28" loading="eager"/>
+    <span class="logo-text" aria-hidden="true">Fluryy</span>
+  </a>
   <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
   <nav class="nav" aria-label="Primary">
     <a href="/index.html#how">How it Works</a>
     <a href="/index.html#services">Services</a>
-    <a href="/index.html#areas">Service Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
+    <a href="/index.html#areas">Areas</a>
+    <a href="/index.html#safety">Safety</a>
+    <a href="/index.html#faq">FAQ</a>
     <a href="/index.html#contact">Contact</a>
   </nav>
   <div data-account class="nav"></div>
 </div></header>
-<div class="mobile-cta" role="region" aria-label="Quick actions">
-  <button class="btn" data-open-booking>Book now</button>
-  <button class="btn" data-open-booking>Join waitlist</button>
-</div>
 
 <main class="section"><div class="container">
 
-<h1>Groomer Portal</h1>
-<div class="card" style="margin-top:1rem">
-  <form id="groomer-form" class="form-grid">
-    <label>Name<input class="input" name="name" required></label><br><br>
-    <label>Phone<input class="input" name="phone" type="tel" pattern="^(\+?91)?[6-9]\d{9}$" required></label><br><br>
-    <label>Email<input class="input" name="email" type="email"></label><br><br>
-    <label>Experience (years)<input class="input" name="exp" type="number" min="0" step="1"></label><br><br>
-    <label>Operating areas<input class="input" name="areas"></label><br><br>
-    <label>Skills<select name="skills" multiple class="input"><option>Dog full groom</option><option>Cat grooming</option><option>De-shedding</option></select></label><br><br>
-    <label>Bio<textarea name="bio" rows="4" class="input"></textarea></label><br><br>
-    <label>Available from<input class="input" name="avail_from" type="time"></label>
-    <label>Available to<input class="input" name="avail_to" type="time"></label><br><br>
-    <button class="btn" type="submit">Save Profile</button>
-    <div id="provider-msg" data-msg style="font-weight:700;"></div>
+<h1>Groomer Onboarding</h1>
+<p class="help">Join Fluryy and serve pet parents across Mumbai. Verified pros, flexible slots.</p>
+<div class="card">
+  <form id="groomer-form" class="form-grid" novalidate aria-describedby="groomer-msg">
+    <div class="form-row"><label for="gr-name">Your name</label><input id="gr-name" class="input" name="name" required autocomplete="name"></div>
+    <div class="form-row"><label for="gr-phone">Phone (India)</label><input id="gr-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel"></div>
+    <div class="form-row"><label for="gr-email">Email</label><input id="gr-email" class="input" name="email" type="email" required autocomplete="email"></div>
+    <div class="form-row"><label for="gr-exp">Experience (years)</label><input id="gr-exp" class="input" name="exp" type="number" min="0" step="1" required></div>
+    <div class="form-row" style="grid-column:1/-1;"><label for="gr-areas">Service areas (comma separated)</label><input id="gr-areas" class="input" name="areas" required placeholder="Borivali, Andheri, Bandra"></div>
+    <div class="form-row" style="grid-column:1/-1;"><label for="gr-skills">Skills (comma separated)</label><input id="gr-skills" class="input" name="skills" placeholder="Bath & Brush, Full Groom, Cat Groom"></div>
+    <div class="form-row" style="grid-column:1/-1;"><label for="gr-bio">Short bio</label><textarea id="gr-bio" class="input" name="bio" rows="4" placeholder="Tell us about your grooming style and certifications"></textarea></div>
+    <div class="form-row"><label for="gr-from">Available from</label><input id="gr-from" class="input" name="avail_from" type="time"></div>
+    <div class="form-row"><label for="gr-to">Available until</label><input id="gr-to" class="input" name="avail_to" type="time"></div>
+    <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Submit</button></div>
+    <div id="groomer-msg" data-msg class="help" style="font-weight:700;"></div>
   </form>
 </div>
 
@@ -50,10 +56,12 @@
     <a href="/index.html#how">How it Works</a>
     <a href="/index.html#services">Services</a>
     <a href="/index.html#areas">Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
+    <a href="/index.html#safety">Safety</a>
+    <a href="/index.html#faq">FAQ</a>
+    <a href="/index.html#contact">Contact</a>
   </div>
 </div></footer>
 
-<script src="/js/main.js?v=1.2.5" defer></script>
+<script src="/js/main.js?v=1.2.7" defer></script>
+<script src="/js/pwa-register.js" defer></script>
 </body></html>
