@@ -1,133 +1,211 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Fluryy — Pet Grooming Bookings (Mumbai)</title>
-  <meta name="description" content="Fluryy connects pet parents with vetted groomers for at-home or in-salon grooming." />
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.5" />
+  <title>Fluryy — Pet Grooming, Doorstep or Salon (Mumbai)</title>
+  <meta name="description" content="Fluryy connects pet parents with vetted groomers for gentle, hygienic grooming at home or in salon along the Borivali → Bandra corridor in Mumbai." />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon-128.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#2F80ED">
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
+  <style>
+    /* Minimal inline tweaks to highlight hero waitlist without touching your main CSS */
+    .top-strip{background:#FFF5EE;color:#203048;border-bottom:1px solid #FFE1D6}
+    .top-strip .container{display:flex;gap:.75rem;justify-content:space-between;align-items:center;padding:.45rem 0;flex-wrap:wrap}
+    .pill{background:#FF8A65;color:#fff;border-radius:999px;padding:.2rem .6rem;font-weight:800;font-size:.85rem}
+    .hero-compact .headline{font-size:clamp(28px,3.2vw,40px);margin:0 0 .3rem}
+    .hero-compact .sub{margin:.2rem 0 1rem;color:#2b3a52}
+    .hero-compact .value-bullets{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1rem}
+    .value-bullets .badge{background:#e9f6f3;border:1px solid #c8efe6;color:#1f7d70}
+    .hero .card.emphasis{border:2px solid #58C9B9;box-shadow:0 8px 24px rgba(0,0,0,.07)}
+    .hero .card .eyebrow{font-weight:900;color:#1f7d70;letter-spacing:.4px;margin-bottom:.25rem}
+    .hero .card .help{margin-top:.25rem}
+    .cta-row{display:flex;gap:.6rem;flex-wrap:wrap;margin:.6rem 0 0}
+    .btn-outline{background:#fff;color:#2F80ED;border:2px solid #2F80ED}
+    .quick-strip{background:#F7FBFF;border-top:1px solid #E6EEF8;border-bottom:1px solid #E6EEF8}
+    .quick-strip .container{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;padding:10px 0}
+    .quick-card{background:#fff;border:1px solid #e6eef8;border-radius:12px;padding:.7rem;text-align:center;font-weight:700}
+    @media(max-width:820px){.quick-strip .container{grid-template-columns:repeat(2,1fr)}}
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Fluryy",
+    "image": "https://fluryy.vercel.app/assets/favicon.png",
+    "description": "Premium pet grooming — doorstep or salon in Mumbai.",
+    "areaServed": [ "Borivali", "Kandivali", "Malad", "Andheri", "Khar", "Bandra" ],
+    "address": {"@type": "PostalAddress", "addressLocality": "Mumbai", "addressCountry": "IN"},
+    "url": "https://fluryy.vercel.app"
+  }
+  </script>
 </head><body>
 
+<!-- Top clarity strip: 3-seconds value -->
+<div class="top-strip">
+  <div class="container">
+    <div class="left"><span class="pill">New</span> Premium pet grooming — <strong>doorstep</strong> or <strong>salon</strong> in Mumbai.</div>
+    <div class="right"><a class="cta" href="#waitlist" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join Waitlist</a></div>
+  </div>
+</div>
+
 <header class="header"><div class="container header-inner">
-  <a class="brand" href="/index.html"><span class="logo-text">Fluryy</span></a>
+  <a class="brand" href="/index.html" aria-label="Fluryy home">
+    <img src="/assets/logo-fluryy.svg" alt="" width="120" height="28" loading="eager"/>
+    <span class="logo-text" aria-hidden="true">Fluryy</span>
+  </a>
   <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
   <nav class="nav" aria-label="Primary">
-    <a href="/index.html#how">How it Works</a>
-    <a href="/index.html#services">Services</a>
-    <a href="/index.html#areas">Service Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
-    <a href="/index.html#contact">Contact</a>
+    <a href="#how">How it Works</a>
+    <a href="#services">Services</a>
+    <a href="#areas">Areas</a>
+    <a href="#safety">Safety</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
   </nav>
   <div data-account class="nav"></div>
 </div></header>
+
 <div class="mobile-cta" role="region" aria-label="Quick actions">
-  <button class="btn" data-open-booking aria-controls="booking-modal">Book now</button>
-  <button class="btn" data-open-booking>Join waitlist</button>
+  <button class="btn" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join waitlist</button>
+  <button class="btn btn-outline" type="button" data-phone>WhatsApp</button>
 </div>
 
 <main id="top">
-<section class="hero"><div class="container grid">
+<section class="hero hero-compact"><div class="container grid">
   <div>
-    <h1>Book trusted pet groomers in Mumbai</h1>
-    <p class="lead">Doorstep or salon — vetted pros, clear pricing, reliable slots. Launching along <strong>Borivali → Bandra</strong>.</p>
-    <div class="badges"><span class="badge">At‑home grooming</span><span class="badge">In‑salon</span><span class="badge">Verified pros</span><span class="badge">Secure payments</span></div>
-    <a class="cta" href="#" data-open-booking>Book now</a>
+    <h1 class="headline">Gentle, hygienic grooming for cats & dogs</h1>
+    <p class="sub">Verified professionals. Doorstep convenience or premium salons. Transparent, support-backed experience.</p>
+    <div class="value-bullets">
+      <span class="badge">Verified Groomers</span>
+      <span class="badge">Doorstep &amp; Salon</span>
+      <span class="badge">Hygiene‑first</span>
+      <span class="badge">Cat‑safe handling</span>
+    </div>
+    <div class="cta-row">
+      <a class="cta" href="#waitlist" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join Waitlist</a>
+      <button class="btn btn-outline" type="button" data-phone>Chat on WhatsApp</button>
+    </div>
   </div>
-  <aside class="card" aria-label="Early access">
-    <h2 id="waitlist">Join the waitlist</h2>
-    <form id="waitlist-form" novalidate aria-describedby="wl-msg">
-    <label for="wl-email">Email</label>
-	<input id="wl-email" class="input" name="email" type="email" required autocomplete="email">
-
-	<label for="wl-phone">Phone</label>
-	<input id="wl-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel">
-
-	<label for="wl-locality">Locality</label>
-	<input id="wl-locality" class="input" name="locality" required autocomplete="address-line2">
-
-      <button class="btn" type="submit">Join</button>
-      <div data-msg id="wl-msg" style="margin-top:.5rem;font-weight:700;"></div>
+  <aside class="card emphasis" aria-label="Join the waitlist">
+    <div class="eyebrow">Early access</div>
+    <h2 id="waitlist">Get notified the moment we open your area</h2>
+    <form id="waitlist-form" class="form-grid" novalidate aria-describedby="wl-msg">
+      <div class="form-row">
+        <label for="wl-email">Email</label>
+        <input id="wl-email" class="input" name="email" type="email" required autocomplete="email">
+      </div>
+      <div class="form-row">
+        <label for="wl-phone">Phone (India)</label>
+        <input id="wl-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel">
+      </div>
+      <div class="form-row" style="grid-column:1/-1;">
+        <label for="wl-locality">Locality (e.g., Andheri West)</label>
+        <input id="wl-locality" class="input" name="locality" required autocomplete="address-level2">
+        <div class="help">We’ll prioritize launch by demand. You’ll get a text and email.</div>
+      </div>
+      <div class="form-row" style="grid-column:1/-1;">
+        <button class="btn" type="submit">Join waitlist</button>
+      </div>
+      <div data-msg id="wl-msg" class="help" style="font-weight:700;"></div>
     </form>
-    <p class="note">Saved to our database & CRM.</p>
   </aside>
 </div></section>
 
+<section class="quick-strip" aria-label="What Fluryy offers"><div class="container">
+  <div class="quick-card">At‑home grooming</div>
+  <div class="quick-card">Premium salons</div>
+  <div class="quick-card">Verified pros</div>
+  <div class="quick-card">Support on chat</div>
+</div></section>
+
 <section id="how" class="section"><div class="container columns">
-  <div class="card"><h3>1) Tell us your pet’s needs</h3><p>Dog or cat, coat, notes.</p></div>
-  <div class="card"><h3>2) Pick home or salon</h3><p>Choose a slot, see price.</p></div>
-  <div class="card"><h3>3) We handle the rest</h3><p>Tracked, vetted, supported.</p></div>
+  <div class="card"><h3>1) Tell us about your pet</h3><p>Dog or cat, coat condition, sensitivities. We match you with the right pro.</p></div>
+  <div class="card"><h3>2) Choose home or salon</h3><p>Doorstep comfort or full styling in‑salon. Clear, upfront expectations.</p></div>
+  <div class="card"><h3>3) Groom happily</h3><p>Gentle handling, hygiene‑first. Our team is one tap away if you need help.</p></div>
 </div></section>
 
 <section id="services" class="section"><div class="container columns">
-  <div class="card"><h3>Bath & Brush</h3><p>Shampoo, blow‑dry, brush, nails, ears.</p></div>
-  <div class="card"><h3>Full Groom</h3><p>Breed styling, trim, hygiene.</p></div>
-  <div class="card"><h3>Cat Groom</h3><p>Gentle handling, mat removal.</p></div>
+  <div class="card"><h3>Bath &amp; Brush</h3><p>Fresh shampoo, blow‑dry, brush‑out, nails &amp; ears. Great for regular upkeep.</p></div>
+  <div class="card"><h3>Full Groom</h3><p>Breed‑appropriate styling and trim with hygiene focus.</p></div>
+  <div class="card"><h3>Cat Groom</h3><p>Calm, cat‑safe handling; tidy‑ups and mat care. No sedation.</p></div>
 </div></section>
 
 <section id="areas" class="section"><div class="container">
-  <h2>Service Areas</h2>
-  <p class="lead"><strong>Borivali → Kandivali → Malad → Andheri → Khar → Bandra</strong></p>
+  <h2>We’re launching along Borivali → Bandra</h2>
+  <p class="lead">Onboarding for <strong>Borivali, Kandivali, Malad, Andheri, Khar, Bandra</strong>. Outside this? Join the waitlist—we’ll expand by demand.</p>
+</div></section>
+
+<section id="safety" class="section"><div class="container grid">
+  <div>
+    <h2>Safety & Care</h2>
+    <ul>
+      <li>Hygiene-first kits, sanitized between appointments.</li>
+      <li>Gentle, no-sedation handling policies.</li>
+      <li>Verified professionals with onboarding checks.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Have questions?</h3>
+    <p class="help">Talk to us on WhatsApp or book a discovery call.</p>
+    <div class="cta-row">
+      <button class="btn btn-outline" type="button" data-phone>WhatsApp</button>
+      <a class="cta" href="#contact">Discovery call</a>
+    </div>
+  </div>
+</div></section>
+
+<section id="faq" class="section"><div class="container">
+  <h2>FAQ</h2>
+  <details><summary>Do you do home service?</summary><p>Yes. Doorstep and in‑salon options are available as we roll out.</p></details>
+  <details><summary>Are groomers verified?</summary><p>Yes. We onboard and quality‑check all providers.</p></details>
+  <details><summary>Is cat grooming available?</summary><p>Yes, with calm, cat‑safe handling. No sedation.</p></details>
+  <details><summary>What areas do you serve?</summary><p>Borivali → Bandra corridor first; more soon based on waitlist demand.</p></details>
+  <details><summary>How will I know when booking opens?</summary><p>Join the waitlist. We’ll text and email you when your area goes live.</p></details>
 </div></section>
 
 <section id="contact" class="section"><div class="container grid">
   <div>
     <h2>Contact</h2>
-    <p class="lead">We’d love to talk.</p>
+    <p class="lead">We’re happy to help.</p>
     <p><strong>Email:</strong> <button class="btn" type="button" data-email>Tap to email</button></p>
-    <p><strong>WhatsApp:</strong> <button class="btn" type="button" data-phone>Open chat</button></p>
-    <p><strong>Location:</strong> Mumbai, India</p>
+    <p><strong>WhatsApp:</strong> <button class="btn btn-outline" type="button" data-phone>Open chat</button></p>
+    <p class="note">Your email/number are protected from bots — revealed on click only.</p>
   </div>
   <div class="card"><h3>Discovery call</h3>
-    <form id="contact-form" novalidate aria-describedby="call-msg">
-      <label>Your name<input class="input" name="name" required></label><br><br>
-      <label>Phone<input id="ct-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel"></label><br><br>
-      <label>Pet type<input class="input" name="topic" required></label><br><br>
-      <label>Preferred time<input class="input" name="time" required></label><br><br>
-      <label>Email<input class="input" name="email" type="email" required></label><br><br>
-      <button class="btn" type="submit">Request call</button>
-      <div data-msg id="call-msg" style="margin-top:.5rem;font-weight:700;"></div>
+    <form id="contact-form" class="form-grid" novalidate aria-describedby="call-msg">
+      <div class="form-row"><label for="ct-name">Your name</label><input id="ct-name" class="input" name="name" required autocomplete="name"></div>
+      <div class="form-row"><label for="ct-phone">Phone (India)</label><input id="ct-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel"></div>
+      <div class="form-row"><label for="ct-topic">Pet type</label><input id="ct-topic" class="input" name="topic" required></div>
+      <div class="form-row"><label for="ct-time">Preferred time</label><input id="ct-time" class="input" name="time" required></div>
+      <div class="form-row" style="grid-column:1/-1;"><label for="ct-email">Email</label><input id="ct-email" class="input" name="email" type="email" required autocomplete="email"></div>
+      <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Request call</button></div>
+      <div data-msg id="call-msg" class="help" style="font-weight:700;"></div>
     </form>
   </div>
 </div></section>
 
-<div id="booking-modal" class="modal" aria-modal="true" role="dialog" aria-labelledby="booking-title" aria-hidden="true">
-  <div class="dialog">
-    <div class="dialog-header"><div id="booking-title" class="dialog-title">Quick Booking</div><button class="icon-btn" data-close aria-label="Close modal"><span aria-hidden="true">✕</span></button></div>
-    <div class="dialog-body">
-      <form id="booking-form" novalidate class="form-grid" aria-describedby="booking-msg">
-        <div class="form-row"><label>Your name<input class="input" name="name" required></label></div>
-        <div class="form-row"><label>Email<input class="input" name="email" type="email" required></label></div>
-        <div class="form-row"><label>Phone<input class="input" name="phone" type="tel" inputmode="tel" pattern="^(\+?91)?[6-9]\d{9}$" required></label></div>
-        <div class="form-row"><label>Service<select class="input" name="service" required><option value="">Select</option><option>Bath &amp; Brush</option><option>Full Groom</option><option>Cat Groom</option></select></label></div>
-        <div class="form-row"><label>Date &amp; Time<input id="bk-dt" class="input" name="starts_at" type="datetime-local" required autocomplete="off"></label></div>
-        <div class="form-row" style="grid-column:1/-1;"><label>Address<input class="input" name="address"></label></div>
-        <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Submit</button></div>
-        <div id="booking-msg" data-msg style="font-weight:700;"></div>
-      </form>
-    </div>
-    <div class="dialog-actions"><button class="btn" data-close>Close</button></div>
-  </div>
-</div>
-<section class="section" id="install" hidden>
-  <div class="container card">
-    <h3>Add Fluryy to your phone</h3>
-    <p>Get faster access and offline basics.</p>
-    <button class="btn" type="button" id="install-btn">Install App</button>
-  </div>
-</section>
+<section id="install" class="section" hidden><div class="container card">
+  <h3>Add Fluryy to your phone</h3>
+  <p class="help">Install our web app for faster access and offline basics.</p>
+  <button class="btn" id="install-btn" type="button">Install App</button>
+</div></section>
+
 </main>
 
 <footer class="footer"><div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
   <div>&copy; 2025 Fluryy. All rights reserved.</div>
   <div class="links">
-    <a href="/index.html#how">How it Works</a>
-    <a href="/index.html#services">Services</a>
-    <a href="/index.html#areas">Areas</a>
-    <a href="/providers.html">For Groomers</a>
-    <a href="/pets.html">My Pets</a>
+    <a href="#how">How it Works</a>
+    <a href="#services">Services</a>
+    <a href="#areas">Areas</a>
+    <a href="#safety">Safety</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
   </div>
 </div></footer>
 
-<script src="/js/main.js?v=1.2.5" defer></script>
+<script src="/js/main.js?v=1.2.7" defer></script>
+<script src="/js/pwa-register.js" defer></script>
 </body></html>
