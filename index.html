@@ -5,38 +5,41 @@
   <meta name="description" content="Fluryy connects pet parents with vetted groomers for gentle, hygienic grooming at home or in salon along the Borivali → Bandra corridor in Mumbai." />
   <link rel="icon" href="/assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=">
   <link rel="apple-touch-icon" href="/assets/favicon-128.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#2F80ED">
   <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
   <style>
-    @media (max-width: 720px){
-      .hero .card.emphasis { display:none; }
-      .sheet-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; z-index:90; }
-      .sheet-backdrop.is-open { display:block; }
-      .sheet { position:fixed; left:0; right:0; bottom:-100%; background:#fff; border-top-left-radius:16px; border-top-right-radius:16px; box-shadow:0 -10px 30px rgba(0,0,0,.2); transition:bottom .28s ease; z-index:91; max-height:80vh; overflow:auto; }
-      .sheet.is-open { bottom:0; }
-      .sheet-header { display:flex; align-items:center; justify-content:space-between; padding:1rem; border-bottom:1px solid #eef3ff; }
-      .sheet-body { padding:1rem; }
-      .sheet .help { margin-top:.25rem; }
-      .sheet .btn-close { background:#fff; border:2px solid #2F80ED; color:#2F80ED; border-radius:10px; padding:.4rem .6rem; font-weight:800; }
-      .hero-compact .headline { margin-top:.4rem; }
-    }
+    .header .brand svg { display:block }
+    .top-strip .cta { display:none }
+    .mobile-cta { display:none !important }
+    @media(min-width: 900px){ .faq-contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:1rem;align-items:start} }
+    .contact-line{display:flex;gap:.6rem;align-items:center;margin:.25rem 0}
+    .contact-line .ico{width:18px;height:18px;display:inline-block}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:80}
+    .modal.is-open{display:flex}
+    .dialog{background:#fff;border-radius:16px;border:1px solid #e6eef8;box-shadow:0 20px 60px rgba(0,0,0,.2);width:min(560px,92%);max-height:90vh;overflow:auto}
+    .dialog-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1rem .5rem;border-bottom:1px solid #eef3ff}
+    .dialog-body{padding:1rem}
   </style>
 </head><body>
 
-<div class="top-strip">
+<div class="top-strip" style="background:#FFF5EE;color:#203048;border-bottom:1px solid #FFE1D6">
   <div class="container" style="display:flex;gap:.75rem;justify-content:space-between;align-items:center;padding:.45rem 0;flex-wrap:wrap">
     <div class="left"><span class="pill" style="background:#FF8A65;color:#fff;border-radius:999px;padding:.2rem .6rem;font-weight:800;font-size:.85rem">New</span> Premium pet grooming — <strong>doorstep</strong> or <strong>salon</strong> in Mumbai.</div>
-    <div class="right"><a class="cta" href="#waitlist" onclick="openWaitlistSheet(event)">Join Waitlist</a></div>
   </div>
 </div>
 
 <header class="header"><div class="container header-inner">
-  <a class="brand" href="/index.html" aria-label="Fluryy home">
-    <img src="/assets/logo-fluryy.svg" alt="" width="120" height="28" loading="eager"/>
-    <span class="logo-text" aria-hidden="true">Fluryy</span>
-  </a>
+  <a class="brand" href="/index.html" aria-label="Fluryy home"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 36' width='120' height='28' aria-hidden='true'>
+  <circle cx='18' cy='18' r='18' fill='#2F80ED'/>
+  <circle cx='12' cy='12' r='3' fill='#fff'/>
+  <circle cx='24' cy='12' r='3' fill='#fff'/>
+  <circle cx='12' cy='24' r='3' fill='#fff'/>
+  <circle cx='24' cy='24' r='3' fill='#fff'/>
+  <text x='42' y='24' fill='#203048' font-size='20' font-weight='800' font-family='Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif'>Fluryy</text>
+</svg></a>
   <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
   <nav class="nav" aria-label="Primary">
     <a href="#how">How it Works</a>
@@ -48,11 +51,6 @@
   </nav>
   <div data-account class="nav"></div>
 </div></header>
-
-<div class="mobile-cta" role="region" aria-label="Quick actions">
-  <button class="btn" onclick="openWaitlistSheet(event)">Join waitlist</button>
-  <button class="btn btn-outline" type="button" data-phone>WhatsApp</button>
-</div>
 
 <main id="top">
 <section class="hero hero-compact"><div class="container grid">
@@ -66,8 +64,8 @@
       <span class="badge">Cat‑safe handling</span>
     </div>
     <div class="cta-row" style="display:flex;gap:.6rem;flex-wrap:wrap;margin:.6rem 0 0">
-      <a class="cta" href="#waitlist" onclick="openWaitlistSheet(event)">Join Waitlist</a>
-      <button class="btn btn-outline" type="button" data-phone>Chat on WhatsApp</button>
+      <a class="cta" href="#waitlist" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join Waitlist</a>
+      <a class="btn btn-outline" href="https://wa.me/918657369309" target="_blank" rel="noopener" data-phone>Chat on WhatsApp</a>
     </div>
   </div>
   <aside class="card emphasis" aria-label="Join the waitlist">
@@ -95,33 +93,6 @@
   </aside>
 </div></section>
 
-<div id="wl-backdrop" class="sheet-backdrop" hidden></div>
-<section id="wl-sheet" class="sheet" aria-hidden="true" aria-labelledby="wl-sheet-title">
-  <div class="sheet-header">
-    <h2 id="wl-sheet-title" style="margin:0">Join the Waitlist</h2>
-    <button class="btn-close" onclick="closeWaitlistSheet()">Close</button>
-  </div>
-  <div class="sheet-body">
-    <p class="help">Tell us where you are and how to reach you. We’ll ping you when your area opens.</p>
-    <form id="waitlist-form-m" class="form-grid" novalidate aria-describedby="wl-msg-m">
-      <div class="form-row">
-        <label for="wlm-email">Email</label>
-        <input id="wlm-email" class="input" name="email" type="email" required autocomplete="email">
-      </div>
-      <div class="form-row">
-        <label for="wlm-phone">Phone (India)</label>
-        <input id="wlm-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel">
-      </div>
-      <div class="form-row" style="grid-column:1/-1;">
-        <label for="wlm-locality">Locality (e.g., Andheri West)</label>
-        <input id="wlm-locality" class="input" name="locality" required autocomplete="address-level2">
-      </div>
-      <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Join waitlist</button></div>
-      <div data-msg id="wl-msg-m" class="help" style="font-weight:700;"></div>
-    </form>
-  </div>
-</section>
-
 <section class="quick-strip" aria-label="What Fluryy offers"><div class="container" style="display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;padding:10px 0">
   <div class="quick-card" style="background:#fff;border:1px solid #e6eef8;border-radius:12px;padding:.7rem;text-align:center;font-weight:700">At‑home grooming</div>
   <div class="quick-card" style="background:#fff;border:1px solid #e6eef8;border-radius:12px;padding:.7rem;text-align:center;font-weight:700">Premium salons</div>
@@ -135,73 +106,54 @@
   <div class="card"><h3>3) Groom happily</h3><p>Gentle handling, hygiene‑first. Our team is one tap away if you need help.</p></div>
 </div></section>
 
-<section id="services" class="section"><div class="container columns">
-  <div class="card"><h3>Bath &amp; Brush</h3><p>Fresh shampoo, blow‑dry, brush‑out, nails &amp; ears. Great for regular upkeep.</p></div>
-  <div class="card"><h3>Full Groom</h3><p>Breed‑appropriate styling and trim with hygiene focus.</p></div>
-  <div class="card"><h3>Cat Groom</h3><p>Calm, cat‑safe handling; tidy‑ups and mat care. No sedation.</p></div>
+<section id="faq" class="section"><div class="container faq-contact-grid">
+  <div>
+    <h2>FAQ</h2>
+    <details><summary>Do you do home service?</summary><p>Yes. Doorstep and in‑salon options are available as we roll out.</p></details>
+    <details><summary>Are groomers verified?</summary><p>Yes. We onboard and quality‑check all providers.</p></details>
+    <details><summary>Is cat grooming available?</summary><p>Yes, with calm, cat‑safe handling. No sedation.</p></details>
+    <details><summary>What areas do you serve?</summary><p>Borivali → Bandra corridor first; more soon based on waitlist demand.</p></details>
+    <details><summary>How will I know when booking opens?</summary><p>Join the waitlist. We’ll text and email you when your area goes live.</p></details>
+  </div>
+  <div id="contact" class="card">
+    <h2 style="margin-top:0">Contact</h2>
+    <div class="contact-line"><span class="ico" aria-hidden="true">✉️</span><button class="btn btn-outline" type="button" data-email>hello@fluryy.com</button></div>
+    <div class="contact-line"><span class="ico" aria-hidden="true">💬</span><a class="btn btn-outline" href="https://wa.me/918657369309" target="_blank" rel="noopener" data-phone>WhatsApp Chat</a></div>
+    <div class="contact-line"><span class="ico" aria-hidden="true">📍</span><span>Mumbai, India</span></div>
+    <div style="margin-top:1rem"><button class="btn" type="button" onclick="openCallModal()">Discovery call</button></div>
+  </div>
 </div></section>
+
+<div id="call-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="call-title" aria-hidden="true">
+  <div class="dialog">
+    <div class="dialog-header"><div id="call-title" class="dialog-title">Request a Discovery Call</div><button class="btn btn-outline" data-close onclick="closeCallModal()">Close</button></div>
+    <div class="dialog-body">
+      <form id="contact-form" class="form-grid" novalidate aria-describedby="call-msg">
+        <div class="form-row"><label for="ct-name">Your name</label><input id="ct-name" class="input" name="name" required autocomplete="name"></div>
+        <div class="form-row"><label for="ct-phone">Phone (India)</label><input id="ct-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel"></div>
+        <div class="form-row"><label for="ct-topic">Pet type</label><input id="ct-topic" class="input" name="topic" required></div>
+        <div class="form-row"><label for="ct-time">Preferred time</label><input id="ct-time" class="input" name="time" required></div>
+        <div class="form-row" style="grid-column:1/-1;"><label for="ct-email">Email</label><input id="ct-email" class="input" name="email" type="email" required autocomplete="email"></div>
+        <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Request call</button></div>
+        <div data-msg id="call-msg" class="help" style="font-weight:700;"></div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <section id="areas" class="section"><div class="container">
   <h2>We’re launching along Borivali → Bandra</h2>
   <p class="lead">Onboarding for <strong>Borivali, Kandivali, Malad, Andheri, Khar, Bandra</strong>. Outside this? Join the waitlist—we’ll expand by demand.</p>
 </div></section>
 
-<section id="safety" class="section"><div class="container grid">
-  <div>
-    <h2>Safety & Care</h2>
-    <ul>
-      <li>Hygiene-first kits, sanitized between appointments.</li>
-      <li>Gentle, no-sedation handling policies.</li>
-      <li>Verified professionals with onboarding checks.</li>
-    </ul>
-  </div>
-  <div class="card">
-    <h3>Have questions?</h3>
-    <p class="help">Talk to us on WhatsApp or book a discovery call.</p>
-    <div class="cta-row">
-      <button class="btn btn-outline" type="button" data-phone>WhatsApp</button>
-      <a class="cta" href="#contact">Discovery call</a>
-    </div>
-  </div>
+<section id="safety" class="section"><div class="container">
+  <h2>Safety & Care</h2>
+  <ul>
+    <li>Hygiene-first kits, sanitized between appointments.</li>
+    <li>Gentle, no-sedation handling policies.</li>
+    <li>Verified professionals with onboarding checks.</li>
+  </ul>
 </div></section>
-
-<section id="faq" class="section"><div class="container">
-  <h2>FAQ</h2>
-  <details><summary>Do you do home service?</summary><p>Yes. Doorstep and in‑salon options are available as we roll out.</p></details>
-  <details><summary>Are groomers verified?</summary><p>Yes. We onboard and quality‑check all providers.</p></details>
-  <details><summary>Is cat grooming available?</summary><p>Yes, with calm, cat‑safe handling. No sedation.</p></details>
-  <details><summary>What areas do you serve?</summary><p>Borivali → Bandra corridor first; more soon based on waitlist demand.</p></details>
-  <details><summary>How will I know when booking opens?</summary><p>Join the waitlist. We’ll text and email you when your area goes live.</p></details>
-</div></section>
-
-<section id="contact" class="section"><div class="container grid">
-  <div>
-    <h2>Contact</h2>
-    <p class="lead">We’re happy to help.</p>
-    <p><strong>Email:</strong> <button class="btn" type="button" data-email>Tap to email</button></p>
-    <p><strong>WhatsApp:</strong> <button class="btn btn-outline" type="button" data-phone>Open chat</button></p>
-    <p class="note">Your email/number are protected from bots — revealed on click only.</p>
-  </div>
-  <div class="card"><h3>Discovery call</h3>
-    <form id="contact-form" class="form-grid" novalidate aria-describedby="call-msg">
-      <div class="form-row"><label for="ct-name">Your name</label><input id="ct-name" class="input" name="name" required autocomplete="name"></div>
-      <div class="form-row"><label for="ct-phone">Phone (India)</label><input id="ct-phone" class="input" name="phone" type="tel" inputmode="tel" pattern="^(?:\+?91)?[6-9]\d{9}$" required autocomplete="tel"></div>
-      <div class="form-row"><label for="ct-topic">Pet type</label><input id="ct-topic" class="input" name="topic" required></div>
-      <div class="form-row"><label for="ct-time">Preferred time</label><input id="ct-time" class="input" name="time" required></div>
-      <div class="form-row" style="grid-column:1/-1;"><label for="ct-email">Email</label><input id="ct-email" class="input" name="email" type="email" required autocomplete="email"></div>
-      <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Request call</button></div>
-      <div data-msg id="call-msg" class="help" style="font-weight:700;"></div>
-    </form>
-  </div>
-</div></section>
-
-<section id="install" class="section" hidden><div class="container card">
-  <h3>Add Fluryy to your phone</h3>
-  <p class="help">Install our web app for faster access and offline basics.</p>
-  <button class="btn" id="install-btn" type="button">Install App</button>
-</div></section>
-
-</main>
 
 <footer class="footer"><div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
   <div>&copy; 2025 Fluryy. All rights reserved.</div>
@@ -216,24 +168,12 @@
 </div></footer>
 
 <script src="/js/main.js?v=1.2.7" defer></script>
-<script src="/js/pwa-register.js" defer></script>
 <script>
-  function openWaitlistSheet(e) {{ if(e) e.preventDefault(); var bp = window.matchMedia('(max-width: 720px)'); if (!bp.matches) {{ document.getElementById('waitlist').scrollIntoView({{behavior:'smooth'}}); return; }} document.getElementById('wl-backdrop').hidden=false; document.getElementById('wl-backdrop').classList.add('is-open'); var s=document.getElementById('wl-sheet'); s.classList.add('is-open'); s.setAttribute('aria-hidden','false'); }}
-  function closeWaitlistSheet(){{ document.getElementById('wl-backdrop').classList.remove('is-open'); document.getElementById('wl-backdrop').hidden=true; var s=document.getElementById('wl-sheet'); s.classList.remove('is-open'); s.setAttribute('aria-hidden','true'); }}
-  document.getElementById('wl-backdrop').addEventListener('click', closeWaitlistSheet);
-
-  (function bindMobileWL(){{
-    const form = document.getElementById('waitlist-form-m'); if(!form) return;
-    function normalizeIndianPhone(v){{ v=(v||'').replace(/\s|-/g,''); if(/^\+?91[6-9]\d{{9}}$/.test(v)) return v[0]=='+'?v:'+'+v; if(/^[6-9]\d{{9}}$/.test(v)) return '+91'+v; return null; }}
-    form.addEventListener('submit', async function(e){{ e.preventDefault();
-      try {{ if(!window.supabase){{ alert('Please try again in a moment.'); return; }}
-        const fd = new FormData(form); const row = Object.fromEntries(fd.entries());
-        const phone = normalizeIndianPhone(row.phone); if(!phone) return form.reportValidity();
-        const supa = window.supabase.createClient('https://qfldkqowlqkokpqwqdpl.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGRrcW93bHFrb2twcXdxZHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0ODIxNTMsImV4cCI6MjA3MzA1ODE1M30.TtzlGJIl0Vmn2nI2plqnNvq4NaVH1urNgch982glytg');
-        const {{ error }} = await supa.from('waitlist').insert([{{ email: row.email, phone, locality: row.locality }}]);
-        const msg = document.getElementById('wl-msg-m'); msg.textContent = error ? ('Error: '+error.message) : 'Added to waitlist!'; if(!error) setTimeout(closeWaitlistSheet, 800);
-      }} catch(err) {{ const msg = document.getElementById('wl-msg-m'); msg.textContent = 'Saved (will sync once DB ready).'; }}
-    }});
-  }})();
+  function openCallModal(){document.getElementById('call-modal').classList.add('is-open');document.body.classList.add('modal-open');}
+  function closeCallModal(){document.getElementById('call-modal').classList.remove('is-open');document.body.classList.remove('modal-open');}
+  (function(){
+    var emailBtn=document.querySelector('[data-email]'); if(emailBtn) emailBtn.addEventListener('click',function(e){e.preventDefault(); location.href='mailto:'+'hello'+'@'+'fluryy'+'.com';});
+    var waLinks=document.querySelectorAll('[data-phone]'); waLinks.forEach(function(a){ a.addEventListener('click', function(e){ if(a.tagName==='A') return; e.preventDefault(); window.open('https://wa.me/'+'91'+'8657369309','_blank'); }); });
+  })();
 </script>
 </body></html>
