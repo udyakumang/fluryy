@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Fluryy — Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
+  <style>
+    .admin-wrap { max-width: 1280px; margin: 0 auto; padding: 20px; }
+    .admin-header { display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; }
+    .tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin: 12px 0 16px; }
+    .tabs .tab { padding:.5rem .75rem; border:1px solid #e6eef8; border-radius:10px; cursor:pointer; background:#fff; }
+    .tabs .tab.is-active { background:#2F80ED; color:#fff; border-color:#2F80ED; }
+    .controls { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
+    .table-wrap { background:#fff; border:1px solid #e6eef8; border-radius:12px; overflow:auto; }
+    table { width:100%; border-collapse:collapse; font-size:.95rem; }
+    th, td { padding:.6rem .75rem; border-bottom:1px solid #f0f4fb; vertical-align:top; }
+    th { position:sticky; top:0; background:#f8fbff; z-index:1; text-align:left; }
+    .badge-role { background:#FFE1D6; color:#5f2a1f; border-radius:999px; padding:.15rem .5rem; font-weight:700; font-size:.8rem; }
+    .empty { padding:1rem; color:#6b7a90; }
+    .row-actions button { margin-right:.4rem }
+    .chart-card { background:#fff;border:1px solid #e6eef8;border-radius:12px;padding:1rem }
+    .grid-2 { display:grid; gap:1rem }
+    @media(min-width: 1000px){ .grid-2{ grid-template-columns:1fr 1fr } }
+    .pagination { display:flex; gap:.4rem; align-items:center; margin:.6rem 0 }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="container header-inner" style="padding:14px 0">
+    <a class="brand" href="/index.html" aria-label="Fluryy home"><img src="/assets/logo-fluryy.svg" alt="Fluryy" width="176" height="40" loading="eager"></a>
+    <nav class="nav" aria-label="Admin">
+      <a href="/dashboard.html">User Dashboard</a>
+      <a href="/admin.html" aria-current="page">Admin</a>
+      <a href="/admin-users.html">Users & Roles</a>
+    </nav>
+    <div data-account class="nav"></div>
+  </div>
+</header>
+<div class="after-header-space" style="height:14px"></div>
+
+<main class="admin-wrap">
+  <div class="admin-header">
+    <h1 style="margin:0">Admin Dashboard</h1>
+    <div class="controls">
+      <label>Search <input id="q" class="input" placeholder="name, email, phone, locality, area..."></label>
+      <select id="days" class="input">
+        <option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option>
+        <option value="0">All time</option>
+      </select>
+      <button id="refresh" class="btn">Refresh</button>
+      <button id="export" class="btn btn-outline">Export CSV</button>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="chart-card"><h3 style="margin-top:0">Leads by Day</h3><canvas id="chartLeads" height="120"></canvas></div>
+    <div class="chart-card"><h3 style="margin-top:0">Waitlist by Locality (Top 10)</h3><canvas id="chartLocality" height="120"></canvas></div>
+  </div>
+
+  <div class="tabs" role="tablist" style="margin-top:1rem">
+    <button class="tab is-active" data-tab="waitlist" role="tab" aria-selected="true">Waitlist</button>
+    <button class="tab" data-tab="contacts" role="tab">Contacts</button>
+    <button class="tab" data-tab="bookings" role="tab">Bookings</button>
+    <button class="tab" data-tab="groomers" role="tab">Groomers</button>
+    <button class="tab" data-tab="pets" role="tab">Pets</button>
+  </div>
+
+  <section id="panel-waitlist" class="panel" role="tabpanel" aria-labelledby="tab-waitlist">
+    <div class="table-wrap">
+      <table id="tbl-waitlist">
+        <thead><tr>
+          <th>Created</th><th>Email</th><th>Phone</th><th>Locality</th><th>Source</th><th>Actions</th>
+        </tr></thead>
+        <tbody><tr><td colspan="6" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <div class="pagination"><button id="prev">Prev</button><span id="page"></span><button id="next">Next</button></div>
+  </section>
+
+  <section id="panel-contacts" class="panel" role="tabpanel" hidden>
+    <div class="table-wrap">
+      <table id="tbl-contacts">
+        <thead><tr>
+          <th>Created</th><th>Name</th><th>Email</th><th>Phone</th><th>Topic</th><th>Preferred time</th><th>Status</th><th>Actions</th>
+        </tr></thead>
+        <tbody><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="panel-bookings" class="panel" role="tabpanel" hidden>
+    <div class="table-wrap">
+      <table id="tbl-bookings">
+        <thead><tr>
+          <th>Created</th><th>Name</th><th>Email</th><th>Phone</th><th>Service</th><th>Starts at</th><th>Address</th><th>Status</th><th>Actions</th>
+        </tr></thead>
+        <tbody><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="panel-groomers" class="panel" role="tabpanel" hidden>
+    <div class="table-wrap">
+      <table id="tbl-groomers">
+        <thead><tr>
+          <th>Updated</th><th>Name</th><th>Email</th><th>Phone</th><th>Experience</th><th>Areas</th><th>Skills</th>
+        </tr></thead>
+        <tbody><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="panel-pets" class="panel" role="tabpanel" hidden>
+    <div class="table-wrap">
+      <table id="tbl-pets">
+        <thead><tr>
+          <th>Created</th><th>Owner</th><th>Species</th><th>Breed</th><th>Birthdate</th><th>Weight</th><th>Notes</th>
+        </tr></thead>
+        <tbody><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="footer-note">Only users with role <span class="badge-role">admin</span> can view all records. Others will be redirected.</p>
+</main>
+
+<footer class="footer"><div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
+  <div>&copy; 2025 Fluryy. All rights reserved.</div>
+  <div class="links">
+    <a href="/index.html">Site</a>
+    <a href="/dashboard.html">Dashboard</a>
+    <a href="/admin.html" aria-current="page">Admin</a>
+    <a href="/admin-users.html">Users & Roles</a>
+  </div>
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>
