@@ -1,1 +1,83 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Fluryy — Users & Roles</title>
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
+  <style>
+    .wrap { max-width: 960px; margin:0 auto; padding:20px; }
+    .table-wrap { background:#fff; border:1px solid #e6eef8; border-radius:12px; overflow:auto; }
+    table { width:100%; border-collapse:collapse; font-size:.95rem; }
+    th, td { padding:.6rem .75rem; border-bottom:1px solid #f0f4fb; }
+    th { background:#f8fbff; text-align:left; }
+    .notice { background:#fffbe6; border:1px solid #ffec99; border-radius:8px; padding:.7rem; margin: 0 0 1rem; }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="container header-inner" style="padding:14px 0">
+    <a class="brand" href="/index.html" aria-label="Fluryy home"><img src="/assets/logo-fluryy.svg" alt="Fluryy" width="176" height="40" loading="eager"></a>
+    <nav class="nav" aria-label="Admin">
+      <a href="/admin.html">Admin</a>
+      <a href="/admin-users.html" aria-current="page">Users & Roles</a>
+    </nav>
+  </div>
+</header>
+<div class="after-header-space" style="height:14px"></div>
+
+<main class="wrap">
+  <h1>Users & Roles</h1>
+  <p class="notice">This page lets an existing <strong>admin</strong> promote/demote roles for users. It calls a serverless function secured with your Supabase <code>SERVICE_ROLE</code> key (set in Vercel env vars).</p>
+
+  <div class="table-wrap">
+    <table id="tbl-users">
+      <thead><tr><th>Email</th><th>Role</th><th>Actions</th></tr></thead>
+      <tbody><tr><td colspan="3">Loading…</td></tr></tbody>
+    </table>
+  </div>
+</main>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/+esm';
+  const supa = createClient(
+    'https://qfldkqowlqkokpqwqdpl.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGRrcW93bHFrb2twcXdxZHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0ODIxNTMsImV4cCI6MjA3MzA1ODE1M30.TtzlGJIl0Vmn2nI2plqnNvq4NaVH1urNgch982glytg'
+  );
+
+  const { data: { user } } = await supa.auth.getUser();
+  if(!user){ location.href = '/login.html?next=/admin-users.html'; throw 0; }
+  if(user.user_metadata?.role !== 'admin'){ location.href = '/dashboard.html'; throw 0; }
+
+  const tbody = document.querySelector('#tbl-users tbody');
+
+  // Minimal version: show current user (we can extend to full directory later with a profiles table)
+  function renderSelf(){
+    const email = user.email;
+    const role  = user.user_metadata?.role || 'user';
+    tbody.innerHTML = `<tr>
+      <td>${email}</td>
+      <td>${role}</td>
+      <td>
+        <button class="btn" data-role="admin">Make admin</button>
+        <button class="btn btn-outline" data-role="user">Make user</button>
+      </td>
+    </tr>`;
+    tbody.querySelectorAll('[data-role]').forEach(btn=>{
+      btn.addEventListener('click', async () => {
+        const newRole = btn.getAttribute('data-role');
+        const res = await fetch('/api/set-role', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ user_email: email, role: newRole })
+        });
+        const j = await res.json();
+        if(!j.ok) alert('Error: '+(j.error||'unknown'));
+        else location.reload();
+      });
+    });
+  }
+
+  renderSelf();
+</script>
+</body>
+</html>
