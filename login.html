@@ -4,85 +4,89 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fluryy — Login</title>
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.9"/>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/assets/favicon.png" sizes="32x32">
+  <link rel="stylesheet" href="/css/styles.css?v=1.3.0"/>
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; padding: 2rem; }
-    .card { max-width: 420px; margin: 0 auto; border: 1px solid #e6eef8; border-radius: 12px; padding: 1.5rem; }
-    .input { width: 100%; padding: .5rem; margin-top: .25rem; }
-    .btn { display: inline-block; margin-top: 1rem; padding: .6rem 1rem; background:#2F80ED; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+    .card { max-width: 440px; margin: 0 auto; border: 1px solid #e6eef8; border-radius: 12px; padding: 1.5rem; }
+    label { display:block; margin:.5rem 0; }
+    .input { width: 100%; padding: .6rem .7rem; border:1px solid #e0e6f3; border-radius:10px; }
+    .btn { display:inline-block; padding:.6rem 1rem; background:#2F80ED; color:#fff; border:none; border-radius:10px; cursor:pointer; }
     .btn:disabled { opacity:.6; cursor:not-allowed; }
-    #msg { margin-top:.75rem; font-weight:600; }
+    #msg { margin-top:.75rem; font-weight:600; color:#243b53; }
   </style>
 </head>
 <body>
   <main class="card">
     <h1>Login to Fluryy</h1>
     <p>Enter your email to receive a magic link.</p>
+
     <form id="login-form" novalidate>
       <label>Email
-        <input class="input" type="email" name="email" required>
+        <input class="input" type="email" name="email" autocomplete="email" required>
       </label>
       <!-- Honeypot (bot trap) -->
       <input type="text" name="company" style="display:none">
       <button class="btn" type="submit">Send Magic Link</button>
-      <div id="msg"></div>
+      <div id="msg" role="status" aria-live="polite"></div>
     </form>
+
     <p style="margin-top:1rem;">New here? <a href="/register.html">Register</a></p>
   </main>
 
-<script>
-  const form = document.getElementById('login-form');
-  const msg  = document.getElementById('msg');
-  const btn  = form.querySelector('button[type="submit"]');
+  <script>
+    const form = document.getElementById('login-form');
+    const msg  = document.getElementById('msg');
+    const btn  = form.querySelector('button[type="submit"]');
 
-  const COOLDOWN_SEC = 60;
-  function key(email){ return `mlCooldown:${email.toLowerCase()}`; }
-  function now(){ return Math.floor(Date.now()/1000); }
-  function remaining(email){ const until = Number(localStorage.getItem(key(email))||0); return Math.max(0, until - now()); }
-  function startCooldown(email){ localStorage.setItem(key(email), String(now()+COOLDOWN_SEC)); tick(email); }
-  let timer;
-  function tick(email){
-    clearInterval(timer);
-    function update(){
-      const r = remaining(email);
-      if (r>0){ btn.disabled = true; btn.textContent = `Wait ${r}s`; }
-      else { btn.disabled = false; btn.textContent = 'Send Magic Link'; clearInterval(timer); }
-    }
-    update(); timer = setInterval(update, 1000);
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    msg.textContent = '';
-    const email = form.email.value.trim();
-    const company = (form.company && form.company.value.trim()) || ''; // honeypot
-
-    if (!email){ msg.textContent = 'Please enter your email.'; return; }
-    if (company){ msg.textContent = 'Bot detected.'; return; }
-    if (remaining(email) > 0){ tick(email); msg.textContent='You requested a link recently. Try after the countdown.'; return; }
-
-    btn.disabled = true; btn.textContent = 'Sending…';
-    const res = await fetch('/api/send-magic-link', {
-      method:'POST',
-      headers:{ 'Content-Type':'application/json' },
-      body: JSON.stringify({ email })
-    });
-
-    let data = {};
-    try { data = await res.json(); } catch {}
-    if (!res.ok){
-      if (res.status === 429){
-        startCooldown(email);
-        msg.textContent = data.error || 'Too many requests. Please wait a minute.';
-      } else {
-        btn.disabled = false; btn.textContent='Send Magic Link';
-        msg.textContent = data.error || 'Server error. Please try again.';
+    const COOLDOWN_SEC = 60;
+    function key(email){ return `mlCooldown:${email.toLowerCase()}`; }
+    function now(){ return Math.floor(Date.now()/1000); }
+    function remaining(email){ const until = Number(localStorage.getItem(key(email))||0); return Math.max(0, until - now()); }
+    function startCooldown(email){ localStorage.setItem(key(email), String(now()+COOLDOWN_SEC)); tick(email); }
+    let timer;
+    function tick(email){
+      clearInterval(timer);
+      function update(){
+        const r = remaining(email);
+        if (r>0){ btn.disabled = true; btn.textContent = `Wait ${r}s`; }
+        else { btn.disabled = false; btn.textContent = 'Send Magic Link'; clearInterval(timer); }
       }
-    } else {
-      startCooldown(email);
-      msg.textContent = 'Magic link sent! Check your inbox.';
+      update(); timer = setInterval(update, 1000);
     }
-  });
-</script>
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = '';
+      const email = form.email.value.trim();
+      const company = (form.company && form.company.value.trim()) || ''; // honeypot
+
+      if (!email){ msg.textContent = 'Please enter your email.'; return; }
+      if (company){ msg.textContent = 'Bot detected.'; return; }
+      if (remaining(email) > 0){ tick(email); msg.textContent='You requested a link recently. Try after the countdown.'; return; }
+
+      btn.disabled = true; btn.textContent = 'Sending…';
+      const res = await fetch('/api/send-magic-link', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ email })
+      });
+
+      let data = {}; try { data = await res.json(); } catch {}
+      if (!res.ok){
+        if (res.status === 429){
+          startCooldown(email);
+          msg.textContent = data.error || 'Too many requests. Please wait a minute.';
+        } else {
+          btn.disabled = false; btn.textContent='Send Magic Link';
+          msg.textContent = (data && data.error) ? data.error : 'Server error. Please try again.';
+        }
+      } else {
+        startCooldown(email);
+        msg.textContent = 'Magic link sent! Check your inbox.';
+      }
+    });
+  </script>
 </body>
 </html>
