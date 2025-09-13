@@ -83,6 +83,25 @@
         msg.textContent = 'Magic link sent! Check your inbox.';
       }
     });
+	const res = await fetch('/api/send-magic-link', {
+	  method:'POST',
+	  headers:{ 'Content-Type':'application/json' },
+	  body: JSON.stringify({ email /*, role */ })
+	});
+
+	let data = {};
+	try { data = await res.json(); } catch { /* non-JSON error page */ }
+
+	if (!res.ok) {
+	  if (res.status === 429) {
+		// show cooldown message ...
+	  } else {
+		msg.textContent = (data && data.error) ? data.error : 'Server error. Please try again.';
+	  }
+	  btn.disabled = false; btn.textContent = 'Send Magic Link';
+	  return;
+	}
+
   </script>
 </body>
 </html>
