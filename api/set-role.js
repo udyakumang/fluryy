@@ -1,4 +1,4 @@
- // /api/set-role.js — Vercel serverless function to set a user's role with Supabase service key
+// /api/set-role.js — Vercel serverless function to set a user's role with Supabase service key
 import { createClient } from '@supabase/supabase-js';
 
 export default async function handler(req, res) {

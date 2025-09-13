@@ -1,60 +1,43 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fluryy — Register</title>
-  <meta name="description" content="Fluryy — premium pet grooming platform in Mumbai." />
-  <link rel="icon" href="/assets/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <link rel="apple-touch-icon" href="/assets/favicon-128.png">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#2F80ED">
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
-</head><body>
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.8"/>
+</head>
+<body>
+  <main class="container" style="max-width:420px;padding:2rem 1rem">
+    <h1>Register</h1>
+    <form id="register-form" novalidate>
+      <label>Email<input type="email" class="input" name="email" required></label>
+      <label>Role
+        <select class="input" name="role" required>
+          <option value="parent">Pet Parent</option>
+          <option value="groomer">Groomer</option>
+        </select>
+      </label>
+      <button class="btn" type="submit">Send Magic Link</button>
+    </form>
+    <p>Already have an account? <a href="/login.html">Login</a></p>
+  </main>
 
-<header class="header"><div class="container header-inner">
-  <a class="brand" href="/index.html" aria-label="Fluryy home">
-    <img src="/assets/logo-fluryy.svg" alt="" width="120" height="28" loading="eager"/>
-    <span class="logo-text" aria-hidden="true">Fluryy</span>
-  </a>
-  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
-  <nav class="nav" aria-label="Primary">
-    <a href="/index.html#how">How it Works</a>
-    <a href="/index.html#services">Services</a>
-    <a href="/index.html#areas">Areas</a>
-    <a href="/index.html#safety">Safety</a>
-    <a href="/index.html#faq">FAQ</a>
-    <a href="/index.html#contact">Contact</a>
-  </nav>
-  <div data-account class="nav"></div>
-</div></header>
-
-<main class="section"><div class="container">
-
-<h1>Create your account</h1>
-<p class="help">Sign up to manage pets, get updates, and early access when booking opens.</p>
-<div class="card">
-  <form id="register-form" class="form-grid" novalidate>
-    <div class="form-row"><label for="rg-email">Email</label><input id="rg-email" class="input" name="email" type="email" required autocomplete="email"></div>
-    <div class="form-row"><label for="rg-role">Role</label><select id="rg-role" class="input" name="role" required><option value="parent">Pet Parent</option><option value="groomer">Service Provider</option><option value="admin">Admin</option></select></div>
-    <div class="form-row" style="grid-column:1/-1;"><button class="btn" type="submit">Send signup link</button></div>
-    <div data-msg class="help" style="font-weight:700;"></div>
-  </form>
-</div>
-
-</div></main>
-
-<footer class="footer"><div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
-  <div>&copy; 2025 Fluryy. All rights reserved.</div>
-  <div class="links">
-    <a href="/index.html#how">How it Works</a>
-    <a href="/index.html#services">Services</a>
-    <a href="/index.html#areas">Areas</a>
-    <a href="/index.html#safety">Safety</a>
-    <a href="/index.html#faq">FAQ</a>
-    <a href="/index.html#contact">Contact</a>
-  </div>
-</div></footer>
-
-<script src="/js/main.js?v=1.2.7" defer></script>
-<script src="/js/pwa-register.js" defer></script>
-</body></html>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
+  <script>
+    const supa = supabase.createClient(
+      'https://qfldkqowlqkokpqwqdpl.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGRrcW93bHFrb2twcXdxZHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0ODIxNTMsImV4cCI6MjA3MzA1ODE1M30.TtzlGJIl0Vmn2nI2plqnNvq4NaVH1urNgch982glytg' // anon key
+    );
+    document.getElementById('register-form').addEventListener('submit', async e=>{
+      e.preventDefault();
+      const email = e.target.email.value;
+      const role = e.target.role.value;
+      const { error } = await supa.auth.signInWithOtp({
+        email,
+        options:{ data:{ role } }
+      });
+      alert(error ? 'Error: '+error.message : 'Magic link sent! Check your inbox.');
+    });
+  </script>
+</body>
+</html>
