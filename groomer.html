@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Fluryy — Groomer Dashboard</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:#f9fafc}
+    .wrap{max-width:1000px;margin:0 auto;padding:1rem}
+    .row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+    .card{background:#fff;border:1px solid #e9eef6;border-radius:12px;padding:12px;margin-top:12px}
+    .grid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+    .table{width:100%;border-collapse:collapse}
+    .table th,.table td{border-bottom:1px solid #edf2f7;padding:.55rem .5rem;font-size:14px;text-align:left}
+    .btn{background:#2F80ED;color:#fff;border:none;border-radius:10px;padding:.5rem .8rem;cursor:pointer}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="row" style="justify-content:space-between">
+      <h1>Groomer Dashboard</h1>
+      <div class="row">
+        <a href="/index.html">Home</a>
+        <button id="logout" class="btn">Logout</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Profile -->
+      <div class="card">
+        <h2 style="margin:.25rem 0">My Profile</h2>
+        <form id="profile-form">
+          <label>Name<br><input name="name" class="input" style="width:100%"></label><br>
+          <label>Phone (India)<br><input name="phone" class="input" style="width:100%" type="tel" pattern="^(\+?91)?[6-9]\d{9}$" required></label><br>
+          <label>Area<br><input name="area" class="input" style="width:100%"></label><br>
+          <label>Notes<br><textarea name="notes" class="input" style="width:100%;height:80px"></textarea></label><br>
+          <button class="btn" type="submit">Save</button>
+          <span id="pmsg" style="margin-left:.5rem"></span>
+        </form>
+      </div>
+
+      <!-- Jobs -->
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <h2 style="margin:.25rem 0">My Jobs</h2>
+          <div>
+            <button id="refresh" class="btn" type="button">Refresh</button>
+          </div>
+        </div>
+        <table class="table" id="t-jobs"><thead><tr><th>When</th><th>Service</th><th>Client</th><th>Status</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
+  <script>
+    const supa = supabase.createClient(
+      'https://qfldkqowlqkokpqwqdpl.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGRrcW93bHFrb2twcXdxZHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0ODIxNTMsImV4cCI6MjA3MzA1ODE1M30.TtzlGJIl0Vmn2nI2plqnNvq4NaVH1urNgch982glytg'
+    );
+    const q=(s)=>document.querySelector(s);
+    function fmt(dt){ try { return new Date(dt).toLocaleString(); } catch { return dt } }
+
+    async function requireGroomer() {
+      const { data:{ user } } = await supa.auth.getUser();
+      if (!user) return location.replace('/login.html?next=%2Fgroomer.html');
+      const role = user.user_metadata?.role || 'parent';
+      if (role !== 'groomer' && role !== 'admin') return location.replace('/dashboard.html');
+      return user;
+    }
+
+    async function loadProfile(uid,email) {
+      const { data } = await supa.from('groomers').select('id,name,phone,area,notes').eq('user_id',uid).limit(1).maybeSingle();
+      const f = q('#profile-form');
+      if (data){ f.name.value=data.name||''; f.phone.value=data.phone||''; f.area.value=data.area||''; f.notes.value=data.notes||''; }
+      else { f.reset(); }
+      f.dataset.rowId = data?.id || '';
+      f.dataset.email = email || '';
+    }
+
+    async function saveProfile(uid) {
+      const f = q('#profile-form');
+      const row = {
+        id: f.dataset.rowId || undefined,
+        user_id: uid,
+        email: f.dataset.email || '',
+        name: f.name.value.trim(),
+        phone: f.phone.value.trim(),
+        area: f.area.value.trim(),
+        notes: f.notes.value.trim(),
+        updated_at: new Date().toISOString()
+      };
+      const { error } = await supa.from('groomers').upsert(row).select('id').maybeSingle();
+      q('#pmsg').textContent = error ? ('Error: ' + error.message) : 'Saved';
+      if (!error) await loadProfile(uid, row.email);
+    }
+
+    async function loadJobs(uid) {
+      // Assumes bookings has groomer_id referencing groomers.user_id
+      const { data } = await supa
+        .from('bookings')
+        .select('starts_at,service,status,name')
+        .eq('groomer_id', uid)
+        .order('starts_at',{ascending:false})
+        .limit(30);
+      q('#t-jobs tbody').innerHTML = (data||[]).map(r => `<tr><td>${fmt(r.starts_at)}</td><td>${r.service||''}</td><td>${r.name||''}</td><td>${r.status||''}</td></tr>`).join('') || `<tr><td colspan="4">No assigned jobs</td></tr>`;
+    }
+
+    q('#profile-form').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const { data:{ user } } = await supa.auth.getUser();
+      if (!user) return location.replace('/login.html?next=%2Fgroomer.html');
+      await saveProfile(user.id);
+    });
+
+    q('#logout').addEventListener('click', async()=>{ await supa.auth.signOut(); location.replace('/login.html'); });
+    q('#refresh').addEventListener('click', async()=>{
+      const { data:{ user } } = await supa.auth.getUser();
+      if (user) await loadJobs(user.id);
+    });
+
+    (async function init(){
+      const user = await requireGroomer();
+      await loadProfile(user.id, user.email);
+      await loadJobs(user.id);
+    })();
+  </script>
+</body>
+</html>

@@ -1,144 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fluryy — Admin Dashboard</title>
-  <link rel="stylesheet" href="/css/styles.css?v=1.2.7" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/styles.css?v=1.3.1"/>
   <style>
-    .admin-wrap { max-width: 1280px; margin: 0 auto; padding: 20px; }
-    .admin-header { display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; }
-    .tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin: 12px 0 16px; }
-    .tabs .tab { padding:.5rem .75rem; border:1px solid #e6eef8; border-radius:10px; cursor:pointer; background:#fff; }
-    .tabs .tab.is-active { background:#2F80ED; color:#fff; border-color:#2F80ED; }
-    .controls { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
-    .table-wrap { background:#fff; border:1px solid #e6eef8; border-radius:12px; overflow:auto; }
-    table { width:100%; border-collapse:collapse; font-size:.95rem; }
-    th, td { padding:.6rem .75rem; border-bottom:1px solid #f0f4fb; vertical-align:top; }
-    th { position:sticky; top:0; background:#f8fbff; z-index:1; text-align:left; }
-    .badge-role { background:#FFE1D6; color:#5f2a1f; border-radius:999px; padding:.15rem .5rem; font-weight:700; font-size:.8rem; }
-    .empty { padding:1rem; color:#6b7a90; }
-    .row-actions button { margin-right:.4rem }
-    .chart-card { background:#fff;border:1px solid #e6eef8;border-radius:12px;padding:1rem }
-    .grid-2 { display:grid; gap:1rem }
-    @media(min-width: 1000px){ .grid-2{ grid-template-columns:1fr 1fr } }
-    .pagination { display:flex; gap:.4rem; align-items:center; margin:.6rem 0 }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:#f9fafc}
+    .wrap{max-width:1100px;margin:0 auto;padding:1rem}
+    .top{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin:1rem 0}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .card{background:#fff;border:1px solid #e9eef6;border-radius:12px;padding:12px}
+    .k{font-size:12px;color:#6b7b93;text-transform:uppercase;letter-spacing:.04em}
+    .v{font-size:22px;font-weight:800;color:#203048;margin-top:2px}
+    .table{width:100%;border-collapse:collapse}
+    .table th,.table td{border-bottom:1px solid #edf2f7;padding:.55rem .5rem;font-size:14px;text-align:left}
+    .table th{color:#5a6b86;text-transform:uppercase;font-size:12px}
+    .row{display:flex;gap:.5rem;flex-wrap:wrap}
+    .btn{background:#2F80ED;color:#fff;border:none;border-radius:10px;padding:.5rem .8rem;cursor:pointer}
+    .link{color:#2F80ED;text-decoration:none}
+    .muted{color:#6b7b93}
+    @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:600px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-<header class="header">
-  <div class="container header-inner" style="padding:14px 0">
-    <a class="brand" href="/index.html" aria-label="Fluryy home"><img src="/assets/logo-fluryy.svg" alt="Fluryy" width="176" height="40" loading="eager"></a>
-    <nav class="nav" aria-label="Admin">
-      <a href="/dashboard.html">User Dashboard</a>
-      <a href="/admin.html" aria-current="page">Admin</a>
-      <a href="/admin-users.html">Users & Roles</a>
-    </nav>
-    <div data-account class="nav"></div>
-  </div>
-</header>
-<div class="after-header-space" style="height:14px"></div>
-
-<main class="admin-wrap">
-  <div class="admin-header">
-    <h1 style="margin:0">Admin Dashboard</h1>
-    <div class="controls">
-      <label>Search <input id="q" class="input" placeholder="name, email, phone, locality, area..."></label>
-      <select id="days" class="input">
-        <option value="7">Last 7 days</option>
-        <option value="30" selected>Last 30 days</option>
-        <option value="90">Last 90 days</option>
-        <option value="0">All time</option>
-      </select>
-      <button id="refresh" class="btn">Refresh</button>
-      <button id="export" class="btn btn-outline">Export CSV</button>
+  <div class="wrap">
+    <div class="top">
+      <h1>Admin Dashboard</h1>
+      <div class="row">
+        <a class="link" href="/index.html">Home</a>
+        <button id="logout" class="btn">Logout</button>
+      </div>
     </div>
-  </div>
 
-  <div class="grid-2">
-    <div class="chart-card"><h3 style="margin-top:0">Leads by Day</h3><canvas id="chartLeads" height="120"></canvas></div>
-    <div class="chart-card"><h3 style="margin-top:0">Waitlist by Locality (Top 10)</h3><canvas id="chartLocality" height="120"></canvas></div>
-  </div>
+    <!-- KPIs -->
+    <div class="grid" id="kpis">
+      <div class="card"><div class="k">Bookings</div><div class="v" id="k-bookings">–</div></div>
+      <div class="card"><div class="k">Waitlist</div><div class="v" id="k-waitlist">–</div></div>
+      <div class="card"><div class="k">Contacts</div><div class="v" id="k-contacts">–</div></div>
+      <div class="card"><div class="k">Groomers</div><div class="v" id="k-groomers">–</div></div>
+    </div>
 
-  <div class="tabs" role="tablist" style="margin-top:1rem">
-    <button class="tab is-active" data-tab="waitlist" role="tab" aria-selected="true">Waitlist</button>
-    <button class="tab" data-tab="contacts" role="tab">Contacts</button>
-    <button class="tab" data-tab="bookings" role="tab">Bookings</button>
-    <button class="tab" data-tab="groomers" role="tab">Groomers</button>
-    <button class="tab" data-tab="pets" role="tab">Pets</button>
-  </div>
-
-  <section id="panel-waitlist" class="panel" role="tabpanel" aria-labelledby="tab-waitlist">
-    <div class="table-wrap">
-      <table id="tbl-waitlist">
-        <thead><tr>
-          <th>Created</th><th>Email</th><th>Phone</th><th>Locality</th><th>Source</th><th>Actions</th>
-        </tr></thead>
-        <tbody><tr><td colspan="6" class="empty">Loading…</td></tr></tbody>
+    <!-- Recent tables -->
+    <div class="card" style="margin-top:12px">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <h2 style="margin:.25rem 0">Recent Bookings</h2>
+        <a class="link" href="#all-bookings" id="view-all-bookings">View all</a>
+      </div>
+      <table class="table" id="t-bookings">
+        <thead><tr><th>When</th><th>Name</th><th>Service</th><th>Phone</th><th>Status</th></tr></thead>
+        <tbody></tbody>
       </table>
     </div>
-    <div class="pagination"><button id="prev">Prev</button><span id="page"></span><button id="next">Next</button></div>
-  </section>
 
-  <section id="panel-contacts" class="panel" role="tabpanel" hidden>
-    <div class="table-wrap">
-      <table id="tbl-contacts">
-        <thead><tr>
-          <th>Created</th><th>Name</th><th>Email</th><th>Phone</th><th>Topic</th><th>Preferred time</th><th>Status</th><th>Actions</th>
-        </tr></thead>
-        <tbody><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
-      </table>
+    <div class="grid" style="margin-top:12px">
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center"><h3>Waitlist</h3><a class="link" href="#all-waitlist" id="view-all-waitlist">View all</a></div>
+        <table class="table" id="t-waitlist"><thead><tr><th>When</th><th>Email</th><th>Phone</th><th>Locality</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center"><h3>Contacts</h3><a class="link" href="#all-contacts" id="view-all-contacts">View all</a></div>
+        <table class="table" id="t-contacts"><thead><tr><th>When</th><th>Name</th><th>Phone</th><th>Email</th><th>Topic</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center"><h3>Groomers</h3><a class="link" href="#all-groomers" id="view-all-groomers">View all</a></div>
+        <table class="table" id="t-groomers"><thead><tr><th>When</th><th>Name</th><th>Phone</th><th>Area</th><th>Status</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center"><h3>Pets</h3><a class="link" href="#all-pets" id="view-all-pets">View all</a></div>
+        <table class="table" id="t-pets"><thead><tr><th>When</th><th>Name</th><th>Type</th><th>Owner</th></tr></thead><tbody></tbody></table>
+      </div>
     </div>
-  </section>
-
-  <section id="panel-bookings" class="panel" role="tabpanel" hidden>
-    <div class="table-wrap">
-      <table id="tbl-bookings">
-        <thead><tr>
-          <th>Created</th><th>Name</th><th>Email</th><th>Phone</th><th>Service</th><th>Starts at</th><th>Address</th><th>Status</th><th>Actions</th>
-        </tr></thead>
-        <tbody><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section id="panel-groomers" class="panel" role="tabpanel" hidden>
-    <div class="table-wrap">
-      <table id="tbl-groomers">
-        <thead><tr>
-          <th>Updated</th><th>Name</th><th>Email</th><th>Phone</th><th>Experience</th><th>Areas</th><th>Skills</th>
-        </tr></thead>
-        <tbody><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section id="panel-pets" class="panel" role="tabpanel" hidden>
-    <div class="table-wrap">
-      <table id="tbl-pets">
-        <thead><tr>
-          <th>Created</th><th>Owner</th><th>Species</th><th>Breed</th><th>Birthdate</th><th>Weight</th><th>Notes</th>
-        </tr></thead>
-        <tbody><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
-      </table>
-    </div>
-  </section>
-
-  <p class="footer-note">Only users with role <span class="badge-role">admin</span> can view all records. Others will be redirected.</p>
-</main>
-
-<footer class="footer"><div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
-  <div>&copy; 2025 Fluryy. All rights reserved.</div>
-  <div class="links">
-    <a href="/index.html">Site</a>
-    <a href="/dashboard.html">Dashboard</a>
-    <a href="/admin.html" aria-current="page">Admin</a>
-    <a href="/admin-users.html">Users & Roles</a>
+    <p class="muted" style="margin-top:10px">Tip: use “View all” anchors for now — we can split into dedicated pages later.</p>
   </div>
-</div></footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="/js/admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
+  <script>
+    const supa = supabase.createClient(
+      'https://qfldkqowlqkokpqwqdpl.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGRrcW93bHFrb2twcXdxZHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0ODIxNTMsImV4cCI6MjA3MzA1ODE1M30.TtzlGJIl0Vmn2nI2plqnNvq4NaVH1urNgch982glytg'
+    );
+
+    const q = (s) => document.querySelector(s);
+    const tbody = (id) => q(id + ' tbody');
+
+    async function requireAdmin() {
+      const { data:{ user } } = await supa.auth.getUser();
+      if (!user) return location.replace('/login.html?next=%2Fadmin.html');
+      const role = user.user_metadata?.role || 'parent';
+      if (role !== 'admin') return location.replace('/dashboard.html');
+      return user;
+    }
+
+    async function loadKPIs() {
+      const [b,w,c,g] = await Promise.all([
+        supa.from('bookings').select('*',{count:'exact',head:true}),
+        supa.from('waitlist').select('*',{count:'exact',head:true}),
+        supa.from('contacts').select('*',{count:'exact',head:true}),
+        supa.from('groomers').select('*',{count:'exact',head:true}),
+      ]);
+      q('#k-bookings').textContent = b.count ?? '–';
+      q('#k-waitlist').textContent = w.count ?? '–';
+      q('#k-contacts').textContent = c.count ?? '–';
+      q('#k-groomers').textContent = g.count ?? '–';
+    }
+
+    function fmt(dt){ try { return new Date(dt).toLocaleString(); } catch { return dt } }
+
+    async function loadRecent() {
+      const [bookings, waitlist, contacts, groomers, pets] = await Promise.all([
+        supa.from('bookings').select('id,created_at,name,service,phone,status').order('created_at',{ascending:false}).limit(8),
+        supa.from('waitlist').select('id,created_at,email,phone,locality').order('created_at',{ascending:false}).limit(6),
+        supa.from('contacts').select('id,created_at,name,phone,email,topic').order('created_at',{ascending:false}).limit(6),
+        supa.from('groomers').select('id,created_at,name,phone,area,status').order('created_at',{ascending:false}).limit(6),
+        supa.from('pets').select('id,created_at,name,type,owner_email').order('created_at',{ascending:false}).limit(6),
+      ]);
+
+      // Bookings
+      tbody('#t-bookings').innerHTML = (bookings.data||[]).map(r =>
+        `<tr><td>${fmt(r.created_at)}</td><td>${r.name||''}</td><td>${r.service||''}</td><td>${r.phone||''}</td><td>${r.status||''}</td></tr>`
+      ).join('') || `<tr><td colspan="5" class="muted">No rows</td></tr>`;
+
+      // Waitlist
+      tbody('#t-waitlist').innerHTML = (waitlist.data||[]).map(r =>
+        `<tr><td>${fmt(r.created_at)}</td><td>${r.email||''}</td><td>${r.phone||''}</td><td>${r.locality||''}</td></tr>`
+      ).join('') || `<tr><td colspan="4" class="muted">No rows</td></tr>`;
+
+      // Contacts
+      tbody('#t-contacts').innerHTML = (contacts.data||[]).map(r =>
+        `<tr><td>${fmt(r.created_at)}</td><td>${r.name||''}</td><td>${r.phone||''}</td><td>${r.email||''}</td><td>${r.topic||''}</td></tr>`
+      ).join('') || `<tr><td colspan="5" class="muted">No rows</td></tr>`;
+
+      // Groomers
+      tbody('#t-groomers').innerHTML = (groomers.data||[]).map(r =>
+        `<tr><td>${fmt(r.created_at)}</td><td>${r.name||''}</td><td>${r.phone||''}</td><td>${r.area||''}</td><td>${r.status||''}</td></tr>`
+      ).join('') || `<tr><td colspan="5" class="muted">No rows</td></tr>`;
+
+      // Pets
+      tbody('#t-pets').innerHTML = (pets.data||[]).map(r =>
+        `<tr><td>${fmt(r.created_at)}</td><td>${r.name||''}</td><td>${r.type||''}</td><td>${r.owner_email||''}</td></tr>`
+      ).join('') || `<tr><td colspan="4" class="muted">No rows</td></tr>`;
+    }
+
+    q('#logout').addEventListener('click', async()=>{
+      await supa.auth.signOut(); location.replace('/login.html');
+    });
+
+    (async function init(){
+      await requireAdmin();
+      await loadKPIs();
+      await loadRecent();
+    })();
+  </script>
 </body>
 </html>

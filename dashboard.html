@@ -2,20 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Fluryy — Dashboard</title>
+  <title>Fluryy — My Dashboard</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="alternate icon" href="/assets/favicon.png" sizes="32x32">
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;padding:2rem}
-    .card{max-width:760px;margin:0 auto;border:1px solid #e6eef8;border-radius:12px;padding:1rem}
-    .btn{padding:.5rem .8rem;border:1px solid #2F80ED;border-radius:10px;background:#2F80ED;color:#fff;cursor:pointer}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:#f9fafc}
+    .wrap{max-width:960px;margin:0 auto;padding:1rem}
+    .row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+    .card{background:#fff;border:1px solid #e9eef6;border-radius:12px;padding:12px;margin-top:12px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .table{width:100%;border-collapse:collapse}
+    .table th,.table td{border-bottom:1px solid #edf2f7;padding:.55rem .5rem;font-size:14px;text-align:left}
+    .btn{background:#2F80ED;color:#fff;border:none;border-radius:10px;padding:.5rem .8rem;cursor:pointer}
+    @media (max-width:780px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <main class="card">
-    <h1>Welcome to Fluryy</h1>
-    <p>If you reached here after login, your session is active.</p>
-    <p><a class="btn" href="/index.html">Back to Home</a></p>
-  </main>
+  <div class="wrap">
+    <div class="row" style="justify-content:space-between">
+      <h1>My Dashboard</h1>
+      <div class="row">
+        <a href="/index.html">Home</a>
+        <button id="logout" class="btn">Logout</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <h2 style="margin:.25rem 0">My Pets</h2>
+          <button id="add-pet" class="btn">Add Pet</button>
+        </div>
+        <table class="table" id="t-pets"><thead><tr><th>Name</th><th>Type</th><th>Notes</th></tr></thead><tbody></tbody></table>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <h2 style="margin:.25rem 0">My Bookings</h2>
+          <button id="new-booking" class="btn">New Booking</button>
+        </div>
+        <table class="table" id="t-bookings"><thead><tr><th>When</th><th>Service</th><th>Status</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
+  <script>
+    const supa = supabase.createClient(
+      'https://qfldkqowlqkokpqwqdpl.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGRrcW93bHFrb2twcXdxZHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0ODIxNTMsImV4cCI6MjA3MzA1ODE1M30.TtzlGJIl0Vmn2nI2plqnNvq4NaVH1urNgch982glytg'
+    );
+    const q = (s)=>document.querySelector(s);
+    function fmt(dt){ try { return new Date(dt).toLocaleString(); } catch { return dt } }
+
+    async function requireUser() {
+      const { data:{ user } } = await supa.auth.getUser();
+      if (!user) return location.replace('/login.html?next=%2Fdashboard.html');
+      return user;
+    }
+
+    async function loadMyPets(uid) {
+      const { data } = await supa.from('pets').select('name,type,notes').eq('owner_id', uid).order('created_at',{ascending:false}).limit(20);
+      q('#t-pets tbody').innerHTML = (data||[]).map(r => `<tr><td>${r.name||''}</td><td>${r.type||''}</td><td>${r.notes||''}</td></tr>`).join('') || `<tr><td colspan="3">No pets yet</td></tr>`;
+    }
+
+    async function loadMyBookings(uid) {
+      const { data } = await supa.from('bookings').select('starts_at,service,status').eq('owner_id', uid).order('starts_at',{ascending:false}).limit(20);
+      q('#t-bookings tbody').innerHTML = (data||[]).map(r => `<tr><td>${fmt(r.starts_at)}</td><td>${r.service||''}</td><td>${r.status||''}</td></tr>`).join('') || `<tr><td colspan="3">No bookings yet</td></tr>`;
+    }
+
+    q('#add-pet').addEventListener('click', ()=>location.href='/pets.html'); // or open a modal
+    q('#new-booking').addEventListener('click', ()=>location.href='/index.html#booking');
+
+    q('#logout').addEventListener('click', async()=>{ await supa.auth.signOut(); location.replace('/login.html'); });
+
+    (async function init(){
+      const user = await requireUser();
+      await Promise.all([loadMyPets(user.id), loadMyBookings(user.id)]);
+    })();
+  </script>
 </body>
 </html>
