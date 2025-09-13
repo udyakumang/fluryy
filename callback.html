@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Fluryy — Signing you in…</title>
+  <link rel="stylesheet" href="/css/styles.css?v=1.2.8"/>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;padding:2rem}
+    .card{max-width:560px;margin:0 auto;border:1px solid #e6eef8;border-radius:12px;padding:1rem}
+    .ok{color:#165a22}.err{color:#a0302a}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Signing you in…</h1>
+    <p id="msg">Please wait.</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
+  <script>
+    (async function(){
+      const supa = supabase.createClient(
+        'https://qfldkqowlqkokpqwqdpl.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGRrcW93bHFrb2twcXdxZHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0ODIxNTMsImV4cCI6MjA3MzA1ODE1M30.TtzlGJIl0Vmn2nI2plqnNvq4NaVH1urNgch982glytg'
+      );
+
+      const message = document.getElementById('msg');
+      const hash = window.location.hash || '';
+      const params = new URLSearchParams(hash.replace(/^#/, ''));
+
+      if (params.get('error')) {
+        message.textContent = decodeURIComponent(params.get('error_description') || 'Sign-in error');
+        message.className = 'err';
+        return;
+      }
+
+      // Give Supabase a moment to finalize the session
+      const wait = ms => new Promise(r => setTimeout(r, ms));
+      let tries = 0, user = null;
+      while (tries < 5) {
+        const { data: { user: u } } = await supa.auth.getUser();
+        if (u) { user = u; break; }
+        await wait(300);
+        tries++;
+      }
+
+      if (!user) {
+        message.textContent = 'Unable to finish sign-in. The link may have expired. Please request a new magic link.';
+        message.className = 'err';
+        return;
+      }
+
+      message.textContent = 'Signed in! Redirecting…';
+      message.className = 'ok';
+
+      const role = user.user_metadata?.role || 'parent';
+      if (role === 'admin') location.replace('/admin.html');
+      else location.replace('/dashboard.html');
+    })();
+  </script>
+</body>
+</html>
