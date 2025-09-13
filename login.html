@@ -21,6 +21,8 @@
       <form id="login-form" novalidate>
         <label>Email
           <input type="email" class="input" name="email" autocomplete="email" required>
+		  <input type="text" name="company" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off">
+
         </label>
         <div style="margin-top:1rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap">
           <button class="btn" type="submit">Send Magic Link</button>
@@ -31,48 +33,27 @@
     </div>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.3/dist/umd/supabase.js"></script>
 <script>
-  const supa = supabase.createClient(
-    'https://qfldkqowlqkokpqwqdpl.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbGRrcW93bHFrb2twcXdxZHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0ODIxNTMsImV4cCI6MjA3MzA1ODE1M30.TtzlGJIl0Vmn2nI2plqnNvq4NaVH1urNgch982glytg'
-  );
-
+  // Instead we call our protected endpoint with throttling.
   const form = document.getElementById('login-form');
   const msg  = document.getElementById('msg');
   const btn  = form.querySelector('button[type="submit"]');
 
-  const COOLDOWN_SEC = 60; // adjust to 90 if needed
-
+  const COOLDOWN_SEC = 60;
   function key(email){ return `mlCooldown:${email.toLowerCase()}`; }
   function now(){ return Math.floor(Date.now()/1000); }
-  function remaining(email){
-    const until = Number(localStorage.getItem(key(email))||0);
-    return Math.max(0, until - now());
-  }
-
-  function startCooldown(email){
-    localStorage.setItem(key(email), String(now() + COOLDOWN_SEC));
-    tick(email);
-  }
-
+  function remaining(email){ const until = Number(localStorage.getItem(key(email))||0); return Math.max(0, until - now()); }
+  function startCooldown(email){ localStorage.setItem(key(email), String(now()+COOLDOWN_SEC)); tick(email); }
   let timer;
   function tick(email){
     clearInterval(timer);
     function update(){
       const r = remaining(email);
-      if (r > 0){
-        btn.disabled = true;
-        btn.textContent = `Wait ${r}s`;
-      } else {
-        btn.disabled = false;
-        btn.textContent = 'Send Magic Link';
-        clearInterval(timer);
-      }
+      if (r>0){ btn.disabled = true; btn.textContent = `Wait ${r}s`; }
+      else { btn.disabled = false; btn.textContent = 'Send Magic Link'; clearInterval(timer); }
     }
-    update();
-    timer = setInterval(update, 1000);
+    update(); timer = setInterval(update, 1000);
   }
 
   form.addEventListener('submit', async (e) => {
@@ -81,35 +62,31 @@
     const email = form.email.value.trim();
     if (!email){ msg.textContent = 'Please enter your email.'; return; }
 
-    if (remaining(email) > 0){
-      tick(email);
-      msg.textContent = 'You requested a link recently. Please try again after the countdown.';
-      return;
-    }
+    if (remaining(email) > 0){ tick(email); msg.textContent='You requested a link recently. Try after the countdown.'; return; }
 
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-    const { error } = await supa.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: 'https://fluryy.com/auth/callback.html' }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    const res = await fetch('/api/send-magic-link', {
+      method:'POST',
+      headers:{ 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }) // no role on login
     });
 
-    if (error){
-      // Supabase often returns 429 for rate limits
-      if (/rate limit/i.test(error.message) || /429/.test(String(error.status||''))){
+    const data = await res.json();
+    if (!res.ok){
+      if (res.status === 429){
         startCooldown(email);
-        msg.textContent = 'Too many requests. Please wait a minute before trying again.';
+        msg.textContent = data.error || 'Too many requests. Please wait a minute.';
       } else {
-        btn.disabled = false;
-        btn.textContent = 'Send Magic Link';
-        msg.textContent = 'Error: ' + error.message;
+        btn.disabled = false; btn.textContent='Send Magic Link';
+        msg.textContent = data.error || 'Error sending magic link.';
       }
     } else {
       startCooldown(email);
-      msg.textContent = 'Magic link sent! Check your inbox (may take a few seconds).';
+      msg.textContent = 'Magic link sent! Check your inbox.';
     }
   });
 </script>
+
 
 </body>
 </html>
