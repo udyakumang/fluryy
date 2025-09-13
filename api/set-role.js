@@ -1,33 +1,57 @@
-// /api/set-role.js — Vercel serverless function to set a user's role with Supabase service key
-import { createClient } from '@supabase/supabase-js';
+// /api/set-role.js (Node.js serverless, CommonJS)
+const { createClient } = require('@supabase/supabase-js');
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   try {
-    if (req.method !== 'POST') return res.status(405).json({ ok:false, error:'Method not allowed' });
+    if (req.method !== 'POST') {
+      res.status(405).json({ ok:false, error:'Method not allowed' });
+      return;
+    }
 
-    const { user_email, role } = req.body || {};
-    if (!user_email || !role) return res.status(400).json({ ok:false, error:'Missing user_email or role' });
+    let body = req.body;
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch { body = {}; }
+    }
+    body = body || {};
 
-    const url = process.env.SUPABASE_URL || 'https://qfldkqowlqkokpqwqdpl.supabase.co';
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (!key) return res.status(500).json({ ok:false, error:'Missing SUPABASE_SERVICE_ROLE_KEY' });
+    const { user_email, role } = body;
+    if (!user_email || !role) {
+      res.status(400).json({ ok:false, error:'Missing user_email or role' });
+      return;
+    }
 
-    const admin = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
+    const url = process.env.SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!url || !serviceKey) {
+      res.status(500).json({ ok:false, error:'Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY' });
+      return;
+    }
 
-    // Find the user by email
+    const admin = createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } });
+
+    // Find user by email
+    // listUsers is paged; for small projects this is acceptable. For scale, store a profiles directory.
     const { data: list, error: listErr } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-    if (listErr) return res.status(500).json({ ok:false, error:String(listErr) });
-    const u = list.users.find(x => x.email === user_email);
-    if (!u) return res.status(404).json({ ok:false, error:'User not found' });
+    if (listErr) {
+      res.status(500).json({ ok:false, error: String(listErr) });
+      return;
+    }
+    const u = (list.users || []).find(x => x.email === user_email);
+    if (!u) {
+      res.status(404).json({ ok:false, error:'User not found' });
+      return;
+    }
 
-    // Update user_metadata.role
     const { error } = await admin.auth.admin.updateUserById(u.id, {
       user_metadata: { ...(u.user_metadata || {}), role }
     });
-    if (error) return res.status(500).json({ ok:false, error:String(error) });
+    if (error) {
+      res.status(500).json({ ok:false, error: String(error) });
+      return;
+    }
 
-    return res.status(200).json({ ok:true });
+    res.status(200).json({ ok:true });
   } catch (e) {
-    return res.status(500).json({ ok:false, error: String(e) });
+    res.status(500).json({ ok:false, error:String(e) });
   }
-}
+};
