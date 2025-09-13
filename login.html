@@ -83,7 +83,7 @@
         msg.textContent = 'Magic link sent! Check your inbox.';
       }
     });
-	const res = await fetch('/api/send-magic-link.js', {
+	const res = await fetch('/api/send-magic-link', {
 	  method:'POST',
 	  headers:{ 'Content-Type':'application/json' },
 	  body: JSON.stringify({ email /*, role */ })

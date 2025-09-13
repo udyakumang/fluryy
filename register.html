@@ -71,7 +71,7 @@
       if (remaining(email) > 0){ tick(email); msg.textContent='You requested a link recently. Try after the countdown.'; return; }
 
       btn.disabled = true; btn.textContent = 'Sending…';
-      const res = await fetch('/api/send-magic-link.js', {
+      const res = await fetch('/api/send-magic-link', {
         method:'POST',
         headers:{ 'Content-Type':'application/json' },
         body: JSON.stringify({ email, role })
