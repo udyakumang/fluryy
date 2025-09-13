@@ -30,78 +30,59 @@
     <p style="margin-top:1rem;">New here? <a href="/register.html">Register</a></p>
   </main>
 
-  <script>
-    const form = document.getElementById('login-form');
-    const msg  = document.getElementById('msg');
-    const btn  = form.querySelector('button[type="submit"]');
+<script>
+  const form = document.getElementById('login-form');
+  const msg  = document.getElementById('msg');
+  const btn  = form.querySelector('button[type="submit"]');
 
-    const COOLDOWN_SEC = 60;
-    function key(email){ return `mlCooldown:${email.toLowerCase()}`; }
-    function now(){ return Math.floor(Date.now()/1000); }
-    function remaining(email){ const until = Number(localStorage.getItem(key(email))||0); return Math.max(0, until - now()); }
-    function startCooldown(email){ localStorage.setItem(key(email), String(now()+COOLDOWN_SEC)); tick(email); }
-    let timer;
-    function tick(email){
-      clearInterval(timer);
-      function update(){
-        const r = remaining(email);
-        if (r>0){ btn.disabled = true; btn.textContent = `Wait ${r}s`; }
-        else { btn.disabled = false; btn.textContent = 'Send Magic Link'; clearInterval(timer); }
-      }
-      update(); timer = setInterval(update, 1000);
+  const COOLDOWN_SEC = 60;
+  function key(email){ return `mlCooldown:${email.toLowerCase()}`; }
+  function now(){ return Math.floor(Date.now()/1000); }
+  function remaining(email){ const until = Number(localStorage.getItem(key(email))||0); return Math.max(0, until - now()); }
+  function startCooldown(email){ localStorage.setItem(key(email), String(now()+COOLDOWN_SEC)); tick(email); }
+  let timer;
+  function tick(email){
+    clearInterval(timer);
+    function update(){
+      const r = remaining(email);
+      if (r>0){ btn.disabled = true; btn.textContent = `Wait ${r}s`; }
+      else { btn.disabled = false; btn.textContent = 'Send Magic Link'; clearInterval(timer); }
     }
+    update(); timer = setInterval(update, 1000);
+  }
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      msg.textContent = '';
-      const email = form.email.value.trim();
-      const company = form.company.value.trim(); // honeypot
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.textContent = '';
+    const email = form.email.value.trim();
+    const company = (form.company && form.company.value.trim()) || ''; // honeypot
 
-      if (!email){ msg.textContent = 'Please enter your email.'; return; }
-      if (company){ msg.textContent = 'Bot detected.'; return; }
+    if (!email){ msg.textContent = 'Please enter your email.'; return; }
+    if (company){ msg.textContent = 'Bot detected.'; return; }
+    if (remaining(email) > 0){ tick(email); msg.textContent='You requested a link recently. Try after the countdown.'; return; }
 
-      if (remaining(email) > 0){ tick(email); msg.textContent='You requested a link recently. Try after the countdown.'; return; }
-
-      btn.disabled = true; btn.textContent = 'Sending…';
-      const res = await fetch('/api/send-magic-link', {
-        method:'POST',
-        headers:{ 'Content-Type':'application/json' },
-        body: JSON.stringify({ email })
-      });
-
-      const data = await res.json();
-      if (!res.ok){
-        if (res.status === 429){
-          startCooldown(email);
-          msg.textContent = data.error || 'Too many requests. Please wait a minute.';
-        } else {
-          btn.disabled = false; btn.textContent='Send Magic Link';
-          msg.textContent = data.error || 'Error sending magic link.';
-        }
-      } else {
-        startCooldown(email);
-        msg.textContent = 'Magic link sent! Check your inbox.';
-      }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    const res = await fetch('/api/send-magic-link', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({ email })
     });
-	const res = await fetch('/api/send-magic-link', {
-	  method:'POST',
-	  headers:{ 'Content-Type':'application/json' },
-	  body: JSON.stringify({ email /*, role */ })
-	});
 
-	let data = {};
-	try { data = await res.json(); } catch { /* non-JSON error page */ }
-
-	if (!res.ok) {
-	  if (res.status === 429) {
-		// show cooldown message ...
-	  } else {
-		msg.textContent = (data && data.error) ? data.error : 'Server error. Please try again.';
-	  }
-	  btn.disabled = false; btn.textContent = 'Send Magic Link';
-	  return;
-	}
-
-  </script>
+    let data = {};
+    try { data = await res.json(); } catch {}
+    if (!res.ok){
+      if (res.status === 429){
+        startCooldown(email);
+        msg.textContent = data.error || 'Too many requests. Please wait a minute.';
+      } else {
+        btn.disabled = false; btn.textContent='Send Magic Link';
+        msg.textContent = data.error || 'Server error. Please try again.';
+      }
+    } else {
+      startCooldown(email);
+      msg.textContent = 'Magic link sent! Check your inbox.';
+    }
+  });
+</script>
 </body>
 </html>
