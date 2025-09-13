@@ -2,10 +2,6 @@
   "name": "fluryy",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "vercel-build": "echo 'No build step required'"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "^2.45.3"
-  }
+  "scripts": { "vercel-build": "echo 'No build step required'" },
+  "dependencies": { "@supabase/supabase-js": "^2.45.3" }
 }
