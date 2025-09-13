@@ -48,23 +48,35 @@
 <!-- ========= Header ========= -->
 <header class="header">
   <div class="container header-inner">
-    <a class="brand" href="#top" aria-label="Fluryy home">
+    <a class="brand" href="/index.html" aria-label="Fluryy home">
       <img src="/assets/logo-fluryy.svg" alt="Fluryy" width="188" height="40" loading="eager">
     </a>
-    <nav class="nav" aria-label="Primary">
-      <a href="#how">How it Works</a>
-      <a href="#services">Services</a>
-      <a href="#areas">Areas</a>
-      <a href="#safety">Safety</a>
-      <a href="#contact">Contact</a>
-      <a href="#faq">FAQ</a>
-      <a href="/login.html">Login</a>
-      <a href="/register.html">Register</a>
+
+    <!-- Mobile menu button -->
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primaryNav">
+      <span aria-hidden="true">☰</span>
+    </button>
+
+    <!-- Nav (static anchors) -->
+    <nav id="primaryNav" class="nav" aria-label="Primary">
+      <!-- Public (shown when logged OUT) -->
+      <a data-nav-public href="/index.html#how">How it Works</a>
+      <a data-nav-public href="/index.html#services">Services</a>
+      <a data-nav-public href="/index.html#areas">Areas</a>
+      <a data-nav-public href="/index.html#contact">Contact</a>
+      <a data-nav-logged-out href="/login.html">Login</a>
+      <a data-nav-logged-out href="/register.html">Register</a>
+
+      <!-- Logged IN minimal set -->
+      <a data-nav-logged-in data-role-parent href="/dashboard.html">My Dashboard</a>
+      <a data-nav-logged-in data-role-groomer href="/groomer.html">Groomer Dashboard</a>
+      <a data-nav-logged-in data-role-admin href="/admin.html">Admin</a>
+      <button data-nav-logout class="btn-link" type="button" aria-label="Logout">Logout</button>
     </nav>
-    <div data-account class="nav"></div>
   </div>
 </header>
 <div class="after-header-space" aria-hidden="true"></div>
+
 
 <main id="top">
 
